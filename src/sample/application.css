@@ -1,0 +1,29 @@
+.cell {
+    -fx-border-color: black;
+    -fx-border-width: 1px 1px 1px 1px;
+}
+.wallRight {
+    -fx-border-width: 1px 4px 1px 1px;
+}
+.wallLeft {
+    -fx-border-width: 1px 1px 1px 4px;
+}
+.wallUp {
+    -fx-border-width: 4px 1px 1px 1px;
+}
+.wallDown {
+    -fx-border-width: 1px 1px 4px 1px;
+}
+.start {
+    -fx-background-color: red;
+}
+.goal {
+    -fx-background-color: blue;
+}
+
+.cell-highlight {
+    -fx-background-color:derive(dodgerblue,0.9);
+}
+.cell-hover-highlight {
+    -fx-background-color:derive(green,0.9);
+}

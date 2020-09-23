@@ -1,0 +1,41 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox prefHeight="350.0" prefWidth="759.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+    <children>
+    <VBox prefHeight="67.0" prefWidth="600.0">
+        <children>
+            <HBox>
+                <children>
+                    <MenuButton mnemonicParsing="false" text="Add Wall" fx:id = "wall" textAlignment="CENTER">
+                        <items>
+                            <MenuItem mnemonicParsing="false" text="Up" fx:id = "wallUp" />
+                            <MenuItem mnemonicParsing="false" text="Down" fx:id = "wallDown" />
+                            <MenuItem mnemonicParsing="false" text="Right" fx:id = "wallRight" />
+                            <MenuItem mnemonicParsing="false" text="Left" fx:id = "wallLeft" />
+                            <MenuItem mnemonicParsing="false" text="Remove" fx:id = "wallRemove" />
+                        </items>
+                    </MenuButton>
+                    <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../images/thor.jpg" />
+                        </image>
+                    </ImageView>
+                    <Button mnemonicParsing="false" text="Place Start" fx:id = "start"/>
+                    <Button mnemonicParsing="false" text="Place Goal" fx:id ="goal" />
+                    <Button mnemonicParsing="false" text="Clear Path"  fx:id="clearPath"/>
+                    <Button fx:id="save" mnemonicParsing="false" text="Save" />
+                    <Button fx:id="load" mnemonicParsing="false" text="Load" />
+                </children>
+            </HBox>
+        </children>
+    </VBox>
+    <StackPane fx:id="root" />
+    </children>
+</VBox>
+
+
