@@ -27,6 +27,7 @@
                     </ImageView>
                     <Button mnemonicParsing="false" text="Place Start" fx:id = "start"/>
                     <Button mnemonicParsing="false" text="Place Goal" fx:id ="goal" />
+                    <Button mnemonicParsing="false" text="Find Path"  fx:id="findPath"/>
                     <Button mnemonicParsing="false" text="Clear Path"  fx:id="clearPath"/>
                     <Button fx:id="save" mnemonicParsing="false" text="Save" />
                     <Button fx:id="load" mnemonicParsing="false" text="Load" />
