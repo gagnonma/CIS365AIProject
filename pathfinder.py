@@ -139,13 +139,6 @@ for letter in graphArray: #Connect every adjacent node
         left = graphArray.get(letter - 1, {}).get(number, False)
         topLeft = graphArray.get(letter - 1, {}).get(number - 1, False)
         
-        if topRight:
-            print("Node: ", node)
-            print("Top right: ", topRight)
-            print("Top right walls: ", topRight.getWallVertices())
-            print("Top in top right:", top in topRight.getWallVertices())
-            print("Right in top right", right in topRight.getWallVertices())
-        
         if top and top not in walls:
             adjacentNodes.append(top)
         if right and right not in walls:
