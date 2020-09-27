@@ -115,7 +115,7 @@ walls = {
     "h7" : ["h8"], #middle box
     "h9" : ["h10"],
     "i7" : ["i8"],
-    "i9" : ["i10", "h9"],
+    "i9" : ["i10", "j9"],
     "g8" : ["h8"],
     "i8" : ["j8"],
     "g9" : ["h9"],
@@ -138,6 +138,13 @@ for letter in graphArray: #Connect every adjacent node
         bottomLeft = graphArray.get(letter - 1, {}).get(number + 1, False)
         left = graphArray.get(letter - 1, {}).get(number, False)
         topLeft = graphArray.get(letter - 1, {}).get(number - 1, False)
+        
+        if topRight:
+            print("Node: ", node)
+            print("Top right: ", topRight)
+            print("Top right walls: ", topRight.getWallVertices())
+            print("Top in top right:", top in topRight.getWallVertices())
+            print("Right in top right", right in topRight.getWallVertices())
         
         if top and top not in walls:
             adjacentNodes.append(top)
@@ -165,7 +172,7 @@ for letter in graphArray: #Connect every adjacent node
             adjacentNodes.append(bottomRight)
         if (
             (bottom and bottomLeft and left)
-            and not ( (left in walls) and (right in walls) )
+            and not ( (left in walls) and (bottom in walls) )
             and not (bottom in bottomLeft.getWallVertices() and left in bottomLeft.getWallVertices())
             and not (bottom in walls and left in bottomLeft.getWallVertices())
             and not (left in walls and bottom in bottomLeft.getWallVertices())
