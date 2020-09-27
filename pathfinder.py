@@ -201,8 +201,12 @@ def dfs(start,finish):
             stack.pop()
     return False
 
-print(dfs(nodesByName["a1"],nodesByName["p16"]))
-print("\n")
-print(dfs(nodesByName["a9"],nodesByName["p9"]))
-print("\n")
-print(dfs(nodesByName["c3"],nodesByName["j10"]))
+start = input("Enter start node:  ")
+end = input("Enter end node:  ")
+print(dfs(nodesByName[start],nodesByName[end]))
+
+# print(dfs(nodesByName["a1"],nodesByName["p16"]))
+# print("\n")
+# print(dfs(nodesByName["a9"],nodesByName["p9"]))
+# print("\n")
+# print(dfs(nodesByName["c3"],nodesByName["j10"]))
