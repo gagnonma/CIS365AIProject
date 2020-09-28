@@ -1,10 +1,17 @@
 import string
+import math
 
 class Node:
     def __init__(self, name):
         self.adjacentVertices = set()
         self.wallVertices = set()
         self.name = name
+        self.x = ord(self.name[0]) - 96
+        self.y = int(self.name[1])
+        self.f = 0
+        self.g = 0
+        self.h = 0
+        self.parent = self
     def addWallVertex(self, vertex):
         self.wallVertices.add(vertex)
         vertex.wallVertices.add(self)
@@ -201,9 +208,43 @@ def dfs(start,finish):
             stack.pop()
     return False
 
+def calcDistance(curr, goal):
+    return math.sqrt(pow(curr.x - goal.x, 2) + pow(curr.y - goal.y, 2))
+
+def calcPath(start, goal):
+    path = []
+    temp = goal
+    while temp != start:
+        path.insert(0, temp)
+        temp = temp.parent
+    path.insert(0, start)
+    return path
+
+def astar(start, finish):
+    queue = [start]
+    visited = set()
+    inspected = [start]
+    while queue:
+        currentNode = queue.pop(0)
+        visited.add(currentNode)
+        if currentNode == finish:
+            return calcPath(start,currentNode)
+        for vertex in currentNode.getAdjacentVertices():
+            if vertex not in inspected:
+                vertex.parent = currentNode
+                vertex.g = currentNode.g + 1
+                vertex.h = calcDistance(vertex, finish)
+                vertex.f = vertex.g + vertex.h
+                inspected.append(vertex)
+                if vertex not in visited:
+                    queue.append(vertex)
+        queue = sorted(queue, key=lambda v: v.f)
+    return False
+
 start = input("Enter start node:  ")
 end = input("Enter end node:  ")
-print(dfs(nodesByName[start],nodesByName[end]))
+#print(dfs(nodesByName[start],nodesByName[end]))
+print(astar(nodesByName[start], nodesByName[end]))
 
 # print(dfs(nodesByName["a1"],nodesByName["p16"]))
 # print("\n")
