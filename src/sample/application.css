@@ -21,6 +21,10 @@
     -fx-background-color: blue;
 }
 
+.path {
+    -fx-background-color: yellow;
+}
+
 .cell-highlight {
     -fx-background-color:derive(dodgerblue,0.9);
 }

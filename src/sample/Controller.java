@@ -13,9 +13,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Button;
+import javafx.util.Pair;
 
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -42,6 +44,8 @@ public class Controller implements Initializable {
     Button start;
     @FXML
     Button goal;
+    @FXML
+    Button findPath;
 
     boolean showHoverCursor = true;
 //    ImageView imageView = new ImageView( new Image( "https://upload.wikimedia.org/wikipedia/commons/c/c7/Pink_Cat_2.jpg",50,50,false,false));
@@ -119,6 +123,13 @@ public class Controller implements Initializable {
             grid.loadCells(defaultMap);
         });
 
+        findPath.setOnAction(event -> {
+            ArrayList<Pair<Integer, Integer>> path =  model.findPath();
+            for (Pair<Integer,Integer> p: path) {
+                grid.cells[p.getValue()][p.getKey()].setPath();
+            }
+        });
+
 
     }
 
@@ -188,15 +199,19 @@ public class Controller implements Initializable {
                     y += "" + x;
                     switch (x) {
                         case 1:
+                            model.addWall(col,row, Model.SelectMode.WALLUP);
                             cells[row][col].addWallUp();
                             break;
                         case 2:
+                            model.addWall(col,row, Model.SelectMode.WALLDOWN);
                             cells[row][col].addWallDown();
                             break;
                         case 3:
+                            model.addWall(col,row, Model.SelectMode.WALLRIGHT);
                             cells[row][col].addWallRight();
                             break;
                         case 4:
+                            model.addWall(col,row, Model.SelectMode.WALLLEFT);
                             cells[row][col].addWallLeft();
                             break;
                         default:
@@ -237,6 +252,10 @@ public class Controller implements Initializable {
             getStyleClass().add("cell");
 
             setOpacity(0.9);
+        }
+
+        public void setPath() {
+            getStyleClass().add("path");
         }
 
         public void addWallUp() {
@@ -327,8 +346,9 @@ public class Controller implements Initializable {
                             ((Cell) node).hoverUnhighlight();
                         }
 
-                        for( String s: node.getStyleClass())
-                            System.out.println( node + ": " + s);
+                        System.out.println(node + " : " +  model.map.get(((Cell) node).column).get(((Cell) node).row) + " : " + model.map.get(((Cell) node).column).get(((Cell) node).row).connectedNodes);
+//                        for( String s: node.getStyleClass())
+//                            System.out.println( node + ": " + s);
                     }
 
                 });
@@ -344,6 +364,7 @@ public class Controller implements Initializable {
 
             Cell cell = (Cell) event.getSource();
 
+            model.selectNode(cell.column,cell.row);
             switch (model.getCurrentMode()) {
                 case WALLUP:
                     cell.addWallUp();
