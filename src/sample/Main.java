@@ -15,7 +15,7 @@ public class Main extends Application {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
             primaryStage.setTitle("Path Finding Visualizer");
-            primaryStage.setScene(new Scene(root, 900, 900));
+            primaryStage.setScene(new Scene(root, 850, 1000));
             primaryStage.getScene().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             primaryStage.show();
 

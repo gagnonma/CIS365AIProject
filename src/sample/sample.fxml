@@ -20,11 +20,6 @@
                             <MenuItem mnemonicParsing="false" text="Remove" fx:id = "wallRemove" />
                         </items>
                     </MenuButton>
-                    <ImageView fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                            <Image url="@../images/thor.jpg" />
-                        </image>
-                    </ImageView>
                     <Button mnemonicParsing="false" text="Place Start" fx:id = "start"/>
                     <Button mnemonicParsing="false" text="Place Goal" fx:id ="goal" />
                     <Button mnemonicParsing="false" text="Find Path"  fx:id="findPath"/>
@@ -32,6 +27,91 @@
                     <Button fx:id="save" mnemonicParsing="false" text="Save" />
                     <Button fx:id="load" mnemonicParsing="false" text="Load" />
                 </children>
+            </HBox>
+            <HBox>
+                <VBox>
+                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../images/thor.jpg"/>
+                        </image>
+                    </ImageView>
+                    <HBox>
+                        <Button mnemonicParsing="false" text="-" fx:id="thorMinus"/>
+                        <Text text="0" fx:id="thorClick"></Text>
+                        <Button mnemonicParsing="false" text="+" fx:id="thorPlus"/>
+                    </HBox>
+                    <Button mnemonicParsing="false" text="Move"  fx:id="thorMove"/>
+                </VBox>
+                <VBox>
+                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../images/ironman.jpg"/>
+                        </image>
+                    </ImageView>
+                    <HBox>
+                        <Button mnemonicParsing="false" text="-" fx:id="ironmanMinus"/>
+                        <Text text="0" fx:id="ironmanClick"></Text>
+                        <Button mnemonicParsing="false" text="+" fx:id="ironmanPlus"/>
+                    </HBox>
+                    <Button mnemonicParsing="false" text="Move"  fx:id="ironmanMove"/>
+                </VBox>
+                <VBox>
+                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../images/capAmerica.jpg"/>
+                        </image>
+                    </ImageView>
+                    <HBox>
+                        <Button mnemonicParsing="false" text="-" fx:id="capMinus"/>
+                        <Text text="0" fx:id="capClick"></Text>
+                        <Button mnemonicParsing="false" text="+" fx:id="capPlus"/>
+                    </HBox>
+                    <Button mnemonicParsing="false" text="Move"  fx:id="capMove"/>
+                </VBox>
+                <VBox>
+                    <Button mnemonicParsing="false" text="What Should Thor Do?"  fx:id="thorAction"/>
+                    <Button mnemonicParsing="false" text="What Should IronMan Do?"  fx:id="ironmanAction"/>
+                    <Button mnemonicParsing="false" text="What Should Captain America Do?"  fx:id="capAction"/>
+                </VBox>
+                <VBox>
+                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../images/badThor.jpg"/>
+                        </image>
+                    </ImageView>
+                    <HBox>
+                        <Button mnemonicParsing="false" text="-" fx:id="enemyThorMinus"/>
+                        <Text text="0" fx:id="enemyThorClick"></Text>
+                        <Button mnemonicParsing="false" text="+" fx:id="enemyThorPlus"/>
+                    </HBox>
+                    <Button mnemonicParsing="false" text="Move"  fx:id="enemyThorMove"/>
+                </VBox>
+                <VBox>
+                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../images/badIronman.jpg"/>
+                        </image>
+                    </ImageView>
+                    <HBox>
+                        <Button mnemonicParsing="false" text="-" fx:id="enemyIronmanMinus"/>
+                        <Text text="0" fx:id="enemyIronmanClick"></Text>
+                        <Button mnemonicParsing="false" text="+" fx:id="enemyIronmanPlus"/>
+                    </HBox>
+                    <Button mnemonicParsing="false" text="Move"  fx:id="enemyIronmanMove"/>
+                </VBox>
+                <VBox>
+                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../images/badCapAmerica.jpg"/>
+                        </image>
+                    </ImageView>
+                    <HBox>
+                        <Button mnemonicParsing="false" text="-" fx:id="enemyCapMinus"/>
+                        <Text text="0" fx:id="enemyCapClick"></Text>
+                        <Button mnemonicParsing="false" text="+" fx:id="enemyCapPlus"/>
+                    </HBox>
+                    <Button mnemonicParsing="false" text="Move"  fx:id="enemyCapMove"/>
+                </VBox>
             </HBox>
         </children>
     </VBox>

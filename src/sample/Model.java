@@ -8,7 +8,8 @@ public class Model {
     String intToLetter = "abcdefghijklmnop";
 
     enum SelectMode {
-            WALLUP, WALLDOWN, WALLRIGHT, WALLLEFT, START, GOAL, CLEAR
+            WALLUP, WALLDOWN, WALLRIGHT, WALLLEFT, START, GOAL, CLEAR,
+        THOR, IRONMAN, CAP_AMERICA, E_THOR, E_IRONMAN, E_CAP_AMERICA
     }
 
     private SelectMode currentMode;
@@ -16,6 +17,13 @@ public class Model {
     HashMap<String,Node> nodesByName;
     Node start;
     Node goal;
+    Hero thor;
+    Hero ironman;
+    Hero captainAmerica;
+    Hero enemyThor;
+    Hero enemyIronman;
+    Hero enemyCaptainAmerica;
+
 
     /**
      *
@@ -34,6 +42,13 @@ public class Model {
             }
         }
         initializeNeighbors();
+
+        thor = new Thor(0,0);
+        enemyThor = new Thor(15,15);
+        ironman = new Ironman(0,1);
+        enemyIronman = new Ironman(15,14);
+        captainAmerica = new CaptainAmerica(1,0);
+        enemyCaptainAmerica = new CaptainAmerica(14,15);
     }
 
     public void selectNode(int x, int y) {
@@ -45,6 +60,24 @@ public class Model {
                 goal = map.get(x).get(y);
                 break;
             case CLEAR:
+                break;
+            case THOR:
+                thor.setLocation(x,y);
+                break;
+            case IRONMAN:
+                ironman.setLocation(x,y);
+                break;
+            case CAP_AMERICA:
+                captainAmerica.setLocation(x,y);
+                break;
+            case E_THOR:
+                enemyThor.setLocation(x,y);
+                break;
+            case E_IRONMAN:
+                enemyIronman.setLocation(x,y);
+                break;
+            case E_CAP_AMERICA:
+                enemyCaptainAmerica.setLocation(x,y);
                 break;
             default:
                 addWall(x,y,currentMode);
