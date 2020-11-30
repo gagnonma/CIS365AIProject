@@ -15,7 +15,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.util.Pair;
 
 
 import java.net.URL;
@@ -36,6 +35,8 @@ public class Controller implements Initializable {
     MenuItem wallLeft;
     @FXML
     MenuItem wallRemove;
+    @FXML
+    MenuItem water;
     @FXML
     MenuButton wall;
     @FXML
@@ -97,6 +98,42 @@ public class Controller implements Initializable {
     @FXML
     Text enemyCapClick;
     @FXML
+    Button thorTokenMinus;
+    @FXML
+    Button ironmanTokenMinus;
+    @FXML
+    Button capTokenMinus;
+    @FXML
+    Button enemyThorTokenMinus;
+    @FXML
+    Button enemyIronmanTokenMinus;
+    @FXML
+    Button enemyCapTokenMinus;
+    @FXML
+    Button thorTokenPlus;
+    @FXML
+    Button ironmanTokenPlus;
+    @FXML
+    Button capTokenPlus;
+    @FXML
+    Button enemyThorTokenPlus;
+    @FXML
+    Button enemyIronmanTokenPlus;
+    @FXML
+    Button enemyCapTokenPlus;
+    @FXML
+    Text thorToken;
+    @FXML
+    Text ironmanToken;
+    @FXML
+    Text capToken;
+    @FXML
+    Text enemyThorToken;
+    @FXML
+    Text enemyIronmanToken;
+    @FXML
+    Text enemyCapToken;
+    @FXML
     Button thorAction;
     @FXML
     Button ironmanAction;
@@ -116,7 +153,7 @@ public class Controller implements Initializable {
     Grid grid;
 
     String defaultMap = "0000000300000000000023030322000000030103000300000022402000224200030303000000130003000302222203000322030223000010030003300440222222220032244000000300032200000020030003000000030003230000002222400003030300300000000322432000000000030003003000000000000300300000";
-
+    String defaultWaterMap = "0000111001110000000000100100000000000011110000000000000110000000000000011000000000000001000000000000001110000000000010100100000000001110010000000001100111000000000100001000000000010000010000000000000001000000000000000111000000000000000100000000000000000000";
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         model = new Model();
@@ -174,6 +211,11 @@ public class Controller implements Initializable {
             model.setCurrentMode(Model.SelectMode.CLEAR);
         });
 
+        water.setOnAction(event -> {
+            wall.setText("Add Water");
+            model.setCurrentMode(Model.SelectMode.WATER);
+        });
+
         start.setOnAction(event -> {
             model.setCurrentMode(Model.SelectMode.START);
         });
@@ -187,13 +229,13 @@ public class Controller implements Initializable {
         });
 
         load.setOnAction(event -> {
-            grid.loadCells(defaultMap);
+            grid.loadCells(defaultMap, defaultWaterMap);
         });
 
         findPath.setOnAction(event -> {
-            ArrayList<Pair<Integer, Integer>> path =  model.findPath();
-            for (Pair<Integer,Integer> p: path) {
-                grid.cells[p.getValue()][p.getKey()].setPath();
+            ArrayList<sample.Node> path =  model.findPath(model.start, model.goal);
+            for (sample.Node p: path) {
+                grid.cells[p.y][p.x].setPath();
             }
         });
 
@@ -281,6 +323,66 @@ public class Controller implements Initializable {
             enemyCapClick.setText("" + model.enemyCaptainAmerica.click);
         });
 
+        thorTokenPlus.setOnAction(event -> {
+            model.thor.incrementTokens();
+            thorToken.setText("" + model.thor.tokens);
+        });
+
+        ironmanTokenPlus.setOnAction(event -> {
+            model.ironman.incrementTokens();
+            ironmanToken.setText("" + model.ironman.tokens);
+        });
+
+        capTokenPlus.setOnAction(event -> {
+            model.captainAmerica.incrementTokens();
+            capToken.setText("" + model.captainAmerica.tokens);
+        });
+
+        enemyThorTokenPlus.setOnAction(event -> {
+            model.enemyThor.incrementTokens();
+            enemyThorToken.setText("" + model.enemyThor.tokens);
+        });
+
+        enemyIronmanTokenPlus.setOnAction(event -> {
+            model.enemyIronman.incrementTokens();
+            enemyIronmanToken.setText("" + model.enemyIronman.tokens);
+        });
+
+        enemyCapTokenPlus.setOnAction(event -> {
+            model.enemyCaptainAmerica.incrementTokens();
+            enemyCapToken.setText("" + model.enemyCaptainAmerica.tokens);
+        });
+
+        thorTokenMinus.setOnAction(event -> {
+            model.thor.decrementTokens();
+            thorToken.setText("" + model.thor.tokens);
+        });
+
+        ironmanTokenMinus.setOnAction(event -> {
+            model.ironman.decrementTokens();
+            ironmanToken.setText("" + model.ironman.tokens);
+        });
+
+        capTokenMinus.setOnAction(event -> {
+            model.captainAmerica.decrementTokens();
+            capToken.setText("" + model.captainAmerica.tokens);
+        });
+
+        enemyThorTokenMinus.setOnAction(event -> {
+            model.enemyThor.decrementTokens();
+            enemyThorToken.setText("" + model.enemyThor.tokens);
+        });
+
+        enemyIronmanTokenMinus.setOnAction(event -> {
+            model.enemyIronman.decrementTokens();
+            enemyIronmanToken.setText("" + model.enemyIronman.tokens);
+        });
+
+        enemyCapTokenMinus.setOnAction(event -> {
+            model.enemyCaptainAmerica.decrementTokens();
+            enemyCapToken.setText("" + model.enemyCaptainAmerica.tokens);
+        });
+
 
     }
 
@@ -337,11 +439,22 @@ public class Controller implements Initializable {
                     result += cells[row][col].wall;
                 }
             }
+            String waterString = "";
+            for( int row=0; row < rows; row++) {
+                for( int col=0; col < columns; col++) {
+                    if (cells[row][col].water){
+                        waterString += "1";
+                    }else {
+                        waterString += "0";
+                    }
+                }
+            }
             System.out.println(result);
+            System.out.println(waterString);
             return result;
         }
 
-        public void loadCells(String map) {
+        public void loadCells(String map, String waterMap) {
             String y = "";
             int i = 0;
             for( int row=0; row < rows; row++) {
@@ -371,6 +484,17 @@ public class Controller implements Initializable {
                     i++;
                 }
             }
+            i = 0;
+            for( int row=0; row < rows; row++) {
+                for (int col = 0; col < columns; col++) {
+                    model.setCurrentMode(Model.SelectMode.WATER);
+                    if (waterMap.charAt(i) == '1') {
+                        model.selectNode(col,row);
+                        cells[row][col].addWater();
+                    }
+                    i++;
+                }
+            }
             System.out.println(y);
         }
 
@@ -392,6 +516,7 @@ public class Controller implements Initializable {
         int column;
         int row;
         char wall;
+        boolean water;
 
         public Cell(int column, int row) {
 
@@ -407,6 +532,7 @@ public class Controller implements Initializable {
         }
 
         public void setPath() {
+            getStyleClass().remove("cell-highlight");
             getStyleClass().add("path");
         }
 
@@ -438,6 +564,11 @@ public class Controller implements Initializable {
             getStyleClass().removeAll(getStyleClass());
             getStyleClass().add("cell");
             this.wall = '0';
+        }
+
+        public void addWater() {
+            getStyleClass().add("cell-highlight");
+            this.water = true;
         }
 
         public void setText(String s, Boolean isEnemy) {
@@ -575,8 +706,14 @@ public class Controller implements Initializable {
                     grid.cells[model.enemyCaptainAmerica.y][model.enemyCaptainAmerica.x].setText("",false);
                     cell.setText("Cap",true);
                     break;
+                case WATER:
+                    cell.addWater();
             }
             model.selectNode(cell.column,cell.row);
+            ArrayList<sample.Node> path =  model.getReachableNodes(model.thor);
+            for (sample.Node p: path) {
+                grid.cells[p.y][p.x].setPath();
+            }
 
 
         };

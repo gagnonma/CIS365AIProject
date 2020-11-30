@@ -18,6 +18,7 @@
                             <MenuItem mnemonicParsing="false" text="Right" fx:id = "wallRight" />
                             <MenuItem mnemonicParsing="false" text="Left" fx:id = "wallLeft" />
                             <MenuItem mnemonicParsing="false" text="Remove" fx:id = "wallRemove" />
+                            <MenuItem mnemonicParsing="false" text="Water" fx:id = "water" />
                         </items>
                     </MenuButton>
                     <Button mnemonicParsing="false" text="Place Start" fx:id = "start"/>
@@ -30,41 +31,62 @@
             </HBox>
             <HBox>
                 <VBox>
-                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                         <image>
                             <Image url="@../images/thor.jpg"/>
                         </image>
                     </ImageView>
                     <HBox>
+                        <Text text="  C  "></Text>
                         <Button mnemonicParsing="false" text="-" fx:id="thorMinus"/>
                         <Text text="0" fx:id="thorClick"></Text>
                         <Button mnemonicParsing="false" text="+" fx:id="thorPlus"/>
                     </HBox>
+                    <HBox>
+                        <Text text="  A  "></Text>
+                        <Button mnemonicParsing="false" text="-" fx:id="thorTokenMinus"/>
+                        <Text text="0" fx:id="thorToken"></Text>
+                        <Button mnemonicParsing="false" text="+" fx:id="thorTokenPlus"/>
+                    </HBox>
                     <Button mnemonicParsing="false" text="Move"  fx:id="thorMove"/>
                 </VBox>
                 <VBox>
-                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                         <image>
                             <Image url="@../images/ironman.jpg"/>
                         </image>
                     </ImageView>
                     <HBox>
+                        <Text text="  C  "></Text>
                         <Button mnemonicParsing="false" text="-" fx:id="ironmanMinus"/>
                         <Text text="0" fx:id="ironmanClick"></Text>
                         <Button mnemonicParsing="false" text="+" fx:id="ironmanPlus"/>
                     </HBox>
+                    <HBox>
+                        <Text text="  A  "></Text>
+                        <Button mnemonicParsing="false" text="-" fx:id="ironmanTokenMinus"/>
+                        <Text text="0" fx:id="ironmanToken"></Text>
+                        <Button mnemonicParsing="false" text="+" fx:id="ironmanTokenPlus"/>
+                    </HBox>
                     <Button mnemonicParsing="false" text="Move"  fx:id="ironmanMove"/>
                 </VBox>
                 <VBox>
-                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                         <image>
                             <Image url="@../images/capAmerica.jpg"/>
                         </image>
                     </ImageView>
                     <HBox>
+                        <Text text="  C  "></Text>
                         <Button mnemonicParsing="false" text="-" fx:id="capMinus"/>
                         <Text text="0" fx:id="capClick"></Text>
                         <Button mnemonicParsing="false" text="+" fx:id="capPlus"/>
+                    </HBox>
+                    <HBox>
+                        <Text text="  A  "></Text>
+                        <Button mnemonicParsing="false" text="-" fx:id="capTokenMinus"/>
+                        <Text text="0" fx:id="capToken"></Text>
+                        <Button mnemonicParsing="false" text="+" fx:id="capTokenPlus"/>
                     </HBox>
                     <Button mnemonicParsing="false" text="Move"  fx:id="capMove"/>
                 </VBox>
@@ -74,41 +96,62 @@
                     <Button mnemonicParsing="false" text="What Should Captain America Do?"  fx:id="capAction"/>
                 </VBox>
                 <VBox>
-                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                         <image>
                             <Image url="@../images/badThor.jpg"/>
                         </image>
                     </ImageView>
                     <HBox>
+                        <Text text="  C  "></Text>
                         <Button mnemonicParsing="false" text="-" fx:id="enemyThorMinus"/>
                         <Text text="0" fx:id="enemyThorClick"></Text>
                         <Button mnemonicParsing="false" text="+" fx:id="enemyThorPlus"/>
                     </HBox>
+                    <HBox>
+                        <Text text="  A  "></Text>
+                        <Button mnemonicParsing="false" text="-" fx:id="enemyThorTokenMinus"/>
+                        <Text text="0" fx:id="enemyThorToken"></Text>
+                        <Button mnemonicParsing="false" text="+" fx:id="enemyThorTokenPlus"/>
+                    </HBox>
                     <Button mnemonicParsing="false" text="Move"  fx:id="enemyThorMove"/>
                 </VBox>
                 <VBox>
-                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                         <image>
                             <Image url="@../images/badIronman.jpg"/>
                         </image>
                     </ImageView>
                     <HBox>
+                        <Text text="  C  "></Text>
                         <Button mnemonicParsing="false" text="-" fx:id="enemyIronmanMinus"/>
                         <Text text="0" fx:id="enemyIronmanClick"></Text>
                         <Button mnemonicParsing="false" text="+" fx:id="enemyIronmanPlus"/>
                     </HBox>
+                    <HBox>
+                        <Text text="  A  "></Text>
+                        <Button mnemonicParsing="false" text="-" fx:id="enemyIronmanTokenMinus"/>
+                        <Text text="0" fx:id="enemyIronmanToken"></Text>
+                        <Button mnemonicParsing="false" text="+" fx:id="enemyIronmanTokenPlus"/>
+                    </HBox>
                     <Button mnemonicParsing="false" text="Move"  fx:id="enemyIronmanMove"/>
                 </VBox>
                 <VBox>
-                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                         <image>
                             <Image url="@../images/badCapAmerica.jpg"/>
                         </image>
                     </ImageView>
                     <HBox>
+                        <Text text="  C  "></Text>
                         <Button mnemonicParsing="false" text="-" fx:id="enemyCapMinus"/>
                         <Text text="0" fx:id="enemyCapClick"></Text>
                         <Button mnemonicParsing="false" text="+" fx:id="enemyCapPlus"/>
+                    </HBox>
+                    <HBox>
+                        <Text text="  A  "></Text>
+                        <Button mnemonicParsing="false" text="-" fx:id="enemyCapTokenMinus"/>
+                        <Text text="0" fx:id="enemyCapToken"></Text>
+                        <Button mnemonicParsing="false" text="+" fx:id="enemyCapTokenPlus"/>
                     </HBox>
                     <Button mnemonicParsing="false" text="Move"  fx:id="enemyCapMove"/>
                 </VBox>

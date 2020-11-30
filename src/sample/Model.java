@@ -9,7 +9,7 @@ public class Model {
 
     enum SelectMode {
             WALLUP, WALLDOWN, WALLRIGHT, WALLLEFT, START, GOAL, CLEAR,
-        THOR, IRONMAN, CAP_AMERICA, E_THOR, E_IRONMAN, E_CAP_AMERICA
+        THOR, IRONMAN, CAP_AMERICA, E_THOR, E_IRONMAN, E_CAP_AMERICA, WATER
     }
 
     private SelectMode currentMode;
@@ -43,12 +43,19 @@ public class Model {
         }
         initializeNeighbors();
 
+
         thor = new Thor(0,0);
+        map.get(0).get(0).occupant = thor;
         enemyThor = new Thor(15,15);
+        map.get(15).get(15).occupant = enemyThor;
         ironman = new Ironman(0,1);
+        map.get(0).get(1).occupant = ironman;
         enemyIronman = new Ironman(15,14);
+        map.get(15).get(14).occupant = enemyIronman;
         captainAmerica = new CaptainAmerica(1,0);
+        map.get(1).get(0).occupant = captainAmerica;
         enemyCaptainAmerica = new CaptainAmerica(14,15);
+        map.get(14).get(15).occupant = enemyCaptainAmerica;
     }
 
     public void selectNode(int x, int y) {
@@ -61,31 +68,40 @@ public class Model {
                 break;
             case CLEAR:
                 break;
+            case WATER:
+                map.get(x).get(y).isWater = true;
+                break;
             case THOR:
-                thor.setLocation(x,y);
+                moveHero(thor, x, y);
                 break;
             case IRONMAN:
-                ironman.setLocation(x,y);
+                moveHero(ironman, x, y);
                 break;
             case CAP_AMERICA:
-                captainAmerica.setLocation(x,y);
+                moveHero(captainAmerica, x, y);
                 break;
             case E_THOR:
-                enemyThor.setLocation(x,y);
+                moveHero(enemyThor, x, y);
                 break;
             case E_IRONMAN:
-                enemyIronman.setLocation(x,y);
+                moveHero(enemyIronman, x, y);
                 break;
             case E_CAP_AMERICA:
-                enemyCaptainAmerica.setLocation(x,y);
+                moveHero(enemyCaptainAmerica, x, y);
+
                 break;
             default:
                 addWall(x,y,currentMode);
         }
     }
 
+    public void moveHero(Hero myHero, int x, int y) {
+        map.get(myHero.x).get(myHero.y).occupant = null;
+        myHero.setLocation(x,y);
+        map.get(myHero.x).get(myHero.y).occupant = myHero;
+    }
 
-    public ArrayList<Pair<Integer, Integer>> findPath() {
+    public ArrayList<Node> findPath(Node start, Node goal) {
         ArrayList<Node> queue = new ArrayList<>();
         queue.add(start);
         ArrayList<Node> visited = new ArrayList<>();
@@ -95,7 +111,7 @@ public class Model {
             Node currentNode = queue.remove(0);
             visited.add(currentNode);
             if (currentNode == goal) {
-                return calcPath(currentNode);
+                return calcPath(start, currentNode);
             }
             for (Node neighbor: currentNode.connectedNodes) {
                 if (!inspected.contains(neighbor)) {
@@ -120,14 +136,14 @@ public class Model {
         return Math.sqrt(Math.pow(curr.x - target.x, 2) + Math.pow(curr.y - target.y, 2));
     }
 
-    private ArrayList<Pair<Integer, Integer>> calcPath(Node currentNode) {
-        ArrayList<Pair<Integer, Integer>> path = new ArrayList<>();
+    private ArrayList<Node> calcPath(Node start, Node currentNode) {
+        ArrayList<Node> path = new ArrayList<>();
         Node temp = currentNode;
         while (temp != start) {
-            path.add(new Pair<>(temp.x,temp.y));
+            path.add(temp);
             temp = temp.parent;
         }
-        path.add(new Pair<>(start.x, start.y));
+        path.add(start);
 
         return path;
     }
@@ -303,6 +319,44 @@ public class Model {
         }
     }
 
+    public ArrayList<Node> getReachableNodes(Hero myHero){
+        ArrayList<Node> result = new ArrayList<>();
+        int mySpeed = myHero.speed[myHero.click];
+        Node goal;
+        Node start = map.get(myHero.x).get(myHero.y);
+        if (!myHero.canFly && start.isWater) {
+            mySpeed /= 2;
+        }
+        int startY = myHero.y - mySpeed;
+        int endY = myHero.y + mySpeed;
+        int startX = myHero.x - mySpeed;
+        int endX = myHero.x + mySpeed;
+        for (int y = startY; y < endY; y++) {
+            for (int x = startX; x < endX; x++) {
+                if (x >= 0 && x <= 15 && y >=0 && y <= 15) {
+                    goal = map.get(x).get(y);
+                    ArrayList<Node> temp = findPath(start,goal);
+                    if (temp != null) {
+                        if (temp.size() <= mySpeed && goal.occupant == null) {
+                            if (myHero.canFly || ((!start.isWater && goal.isWater && getNumOfWaterInPath(temp) == 1) ||
+                                    (!start.isWater && !goal.isWater && getNumOfWaterInPath(temp) == 0) || start.isWater))
+                                result.add(map.get(x).get(y));
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public int getNumOfWaterInPath(ArrayList<Node> path) {
+        int count = 0;
+        for (Node p: path) {
+            if (p.isWater)
+                count++;
+        }
+        return count;
+    }
 
     public SelectMode getCurrentMode() {
         return currentMode;

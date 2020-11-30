@@ -15,6 +15,9 @@ public class Node {
     double h;
     double f;
     Node parent;
+    boolean isWater;
+    boolean occupied;
+    Hero occupant;
 
 
     public Node(String name, int x, int y) {
@@ -26,6 +29,9 @@ public class Node {
         this.g = 0;
         this.h = 0;
         this.f = 0;
+        this.isWater = false;
+        this.occupied = false;
+        this.occupant = null;
 
     }
 
