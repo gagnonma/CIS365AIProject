@@ -50,6 +50,8 @@ public class Controller implements Initializable {
     @FXML
     Button findPath;
     @FXML
+    Button clearPath;
+    @FXML
     Button thorMove;
     @FXML
     Button ironmanMove;
@@ -236,6 +238,14 @@ public class Controller implements Initializable {
             ArrayList<sample.Node> path =  model.findPath(model.start, model.goal);
             for (sample.Node p: path) {
                 grid.cells[p.y][p.x].setPath();
+            }
+        });
+
+        clearPath.setOnAction(event -> {
+            for (int r = 0; r < 16; r++){
+                for (int c = 0; c < 16; c++){
+                    grid.cells[r][c].getStyleClass().remove("path");
+                }
             }
         });
 
@@ -561,8 +571,7 @@ public class Controller implements Initializable {
         }
 
         public void removeWall() {
-            getStyleClass().removeAll(getStyleClass());
-            getStyleClass().add("cell");
+            getStyleClass().removeAll("wallUp", "wallRight", "wallDown", "wallLeft");
             this.wall = '0';
         }
 
@@ -682,6 +691,7 @@ public class Controller implements Initializable {
 //                    } else if( event.isSecondaryButtonDown()) {
 //                        cell.unhighlight();
 //                    }
+                    break;
                 case THOR:
                     grid.cells[model.thor.y][model.thor.x].setText("",false);
                     cell.setText("Thor",false);

@@ -67,6 +67,7 @@ public class Model {
                 goal = map.get(x).get(y);
                 break;
             case CLEAR:
+                deleteWall(x,y);
                 break;
             case WATER:
                 map.get(x).get(y).isWater = true;
@@ -130,6 +131,27 @@ public class Model {
 
 
         return null;
+    }
+
+    public boolean inRange(Node start, Node goal, int range) {
+        double deltaX = goal.x - start.x;
+        double deltaY = goal.y - start.y;
+        double incrementX = deltaX / 10;
+        double incrementY = deltaY / 10;
+        ArrayList<Node> inLine = new ArrayList<>();
+        inLine.add(start);
+        for (int i = 0; i < 10; i++) {
+            Node temp = map.get((int) (start.x + incrementX*i)).get((int) (start.y + incrementY*i));
+            if (!inLine.contains(temp)) {
+                inLine.add(temp);
+            }
+        }
+        for (int i = 0; i < inLine.size()-1; i++){
+            if (!inLine.get(i).connectedNodes.contains(inLine.get(i+1))){
+                return false;
+            }
+        }
+        return calcDistance(start, goal) <= (double) range;
     }
 
     private double calcDistance (Node curr, Node target) {
@@ -278,6 +300,30 @@ public class Model {
         }
         map.get(x).get(y).connectedNodes.removeIf(neighbor -> !isConnected(map.get(x).get(y), neighbor));
     }
+
+    public void deleteWall(int x, int y) {
+        map.get(x).get(y).wallStatus = Node.WallStatus.NOWALL;
+        //For each node surrounding the selected node including the selected node
+        for (int c = x-1; c <= x+1; c++) {
+            for (int r = y - 1; r <= y + 1; r++) {
+                //check all of its surrounding nodes to see if it is connected
+                for (int c2 = c-1; c2 <= c+1; c2++) {
+                    for (int r2 = r - 1; r2 <= r + 1; r2++) {
+                        if (c > -1 && c2 > -1 && r > -1 && r2 > -1 && c < 16 && c2 < 16 && r < 16 && r2 < 16){
+                            Node temp = map.get(c).get(r);
+                            Node neighbor = map.get(c2).get(r);
+                            if (!temp.connectedNodes.contains(neighbor)){
+                                if (isConnected(temp, neighbor)){
+                                    temp.addNeighbor(neighbor);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
 
     public void initializeNeighbors() {
