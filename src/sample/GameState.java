@@ -55,22 +55,34 @@ public class GameState {
         return livingEnemies;
     }
 
+    public ArrayList<Hero> getActionableHeroes() { //Gets an array of all heroes who could perform an action (ie, it's their turn, they're alive, and they have 0 costed actions)
+        ArrayList<Hero> actionableHeroes;
+        if (enemyTurn) {
+            actionableHeroes = getLivingEnemies();
+        }
+        else
+        {
+            actionableHeroes = getLivingFriendlies();
+        }
+
+        for (Hero hero : actionableHeroes) { //Go back and remove the ones who don't have 0 costed actions
+            if (hero.costedActions > 0) {
+                actionableHeroes.remove(hero);
+            }
+        }
+
+        return actionableHeroes;
+    }
+
     public ArrayList<Action> getValidActions() {
         ArrayList<Action> validActions = new ArrayList<Action>();
-        //First, we know that passing is always an option so we will add this action to the list immediately.
-        Pass pass = new Pass();
-        validActions.add(pass);
+        //First, we know that ending turn is always an option so we will add this action to the list immediately.
+        EndTurn endTurn = new EndTurn();
+        validActions.add(endTurn);
 
-        ArrayList<Hero> heroes;
-        if (enemyTurn) {
-            heroes = getLivingEnemies();
-        }
-        else {
-            heroes = getLivingFriendlies();
-        }
+        ArrayList<Hero> actionableHeroes = getActionableHeroes();
 
-        //heroes now represents the living heros on the side whose turn it is, i.e, all the heroes which could perform an action.
-        //todo, this is literally the most important function in the monte carlo simulator, gotta finish it
+
         return validActions;
     }
 

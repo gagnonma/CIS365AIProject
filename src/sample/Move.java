@@ -9,10 +9,11 @@ public class Move extends Action{ //an action that moves a hero to a new map pos
     }
 
     public void applyActionToGameState(GameState gameState) {
+        hero.node = node;
         hero.x = node.x;
         hero.y = node.y;
         hero.incrementTokens();
-        //todo, the hero should store the specific node, it would make things easier
+        hero.costedActions++;
     }
 
     public String toString() {

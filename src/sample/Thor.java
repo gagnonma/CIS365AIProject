@@ -9,5 +9,6 @@ public class Thor extends Hero {
         this.defense = new int[]{18,17,17,17,17,17,17,17,16};
         this.damage = new int[]{4,4,3,3,3,3,3,3,3};
         this.canFly = false;
+        this.range = 6;
     }
 }

@@ -13,5 +13,6 @@ public class Ironman extends Hero {
         this.defense = new int[]{18,18,18,17,17,17,17};
         this.damage = new int[]{4,3,3,3,2,2,2};
         this.canFly = true;
+        this.range = 7;
     }
 }

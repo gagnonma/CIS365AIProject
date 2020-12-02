@@ -10,5 +10,6 @@ public class CaptainAmerica extends Hero {
         this.defense = new int[]{17,17,17,16,16,17};
         this.damage = new int[]{3,3,3,2,2,2};
         this.canFly = false;
+        this.range = 5;
     }
 }

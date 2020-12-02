@@ -12,7 +12,8 @@ public class Hero implements  Cloneable{
     public int[] damage;
     public boolean canFly;
     public Node node;
-
+    public int costedActions;
+    public int range;
 
 
     public Hero(Node position) {
@@ -21,6 +22,7 @@ public class Hero implements  Cloneable{
         this.y = position.y;
         this.click = 0;
         this.tokens = 0;
+        this.costedActions = 0;
     }
 
     public Hero(Hero hero) { //Copy constructor to create a clone of a hero object
@@ -35,6 +37,9 @@ public class Hero implements  Cloneable{
         this.defense = hero.defense.clone();
         this.damage = hero.damage.clone();
         this.canFly = hero.canFly;
+        this.node = hero.node;
+        this.costedActions = hero.costedActions;
+        this.range = hero.range;
     }
 
     /*/public Hero(int x, int y) {
