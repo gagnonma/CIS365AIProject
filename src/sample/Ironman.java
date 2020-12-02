@@ -1,12 +1,12 @@
 package sample;
 
 public class Ironman extends Hero {
-    public Ironman() {
-        super();
-    }
+    //public Ironman(Node position) {
+    //    super(position);
+    //}
 
-    public Ironman(int x, int y) {
-        super(x,y);
+    public Ironman(Node position) {
+        super(position);
         this.maxClick = 7;
         this.speed = new int[]{8,7,7,6,6,6,5};
         this.attack = new int[]{11,11,11,10,10,10,9};

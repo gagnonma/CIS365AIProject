@@ -11,13 +11,14 @@ public class Hero implements  Cloneable{
     public int[] defense;
     public int[] damage;
     public boolean canFly;
-    //public Node node;
+    public Node node;
 
 
 
-    public Hero() {
-        this.x = 0;
-        this.y = 0;
+    public Hero(Node position) {
+        this.node = position;
+        this.x = position.x;
+        this.y = position.y;
         this.click = 0;
         this.tokens = 0;
     }
@@ -25,6 +26,7 @@ public class Hero implements  Cloneable{
     public Hero(Hero hero) { //Copy constructor to create a clone of a hero object
         this.x = hero.x;
         this.y = hero.y;
+        this.node = hero.node;
         this.click = hero.click;
         this.maxClick = hero.maxClick;
         this.tokens = hero.tokens;
@@ -35,12 +37,12 @@ public class Hero implements  Cloneable{
         this.canFly = hero.canFly;
     }
 
-    public Hero(int x, int y) {
+    /*/public Hero(int x, int y) {
         this.x = x;
         this.y = y;
         this.click = 0;
         this.tokens = 0;
-    }
+    }/*/
 
     public void setLocation(int newX, int newY) {
         this.x = newX;

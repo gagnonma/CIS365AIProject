@@ -2,12 +2,8 @@ package sample;
 
 public class CaptainAmerica extends Hero {
 
-    public CaptainAmerica() {
-        super();
-    }
-
-    public CaptainAmerica(int x, int y) {
-        super(x,y);
+    public CaptainAmerica(Node position) {
+        super(position);
         this.maxClick = 6;
         this.speed = new int[]{8, 7, 7, 6, 6, 5};
         this.attack = new int[]{11,10,10,9,9,9};

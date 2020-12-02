@@ -44,17 +44,17 @@ public class Model {
         initializeNeighbors();
 
 
-        thor = new Thor(0,0);
+        thor = new Thor(map.get(0).get(0));
         map.get(0).get(0).occupant = thor;
-        enemyThor = new Thor(15,15);
+        enemyThor = new Thor(map.get(15).get(15));
         map.get(15).get(15).occupant = enemyThor;
-        ironman = new Ironman(0,1);
+        ironman = new Ironman(map.get(0).get(1));
         map.get(0).get(1).occupant = ironman;
-        enemyIronman = new Ironman(15,14);
+        enemyIronman =  new Ironman(map.get(0).get(1));
         map.get(15).get(14).occupant = enemyIronman;
-        captainAmerica = new CaptainAmerica(1,0);
+        captainAmerica = new CaptainAmerica(map.get(1).get(0));
         map.get(1).get(0).occupant = captainAmerica;
-        enemyCaptainAmerica = new CaptainAmerica(14,15);
+        enemyCaptainAmerica = new CaptainAmerica(map.get(14).get(15));
         map.get(14).get(15).occupant = enemyCaptainAmerica;
     }
 
