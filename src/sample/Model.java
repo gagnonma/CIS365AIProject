@@ -2,6 +2,7 @@ package sample;
 
 import javafx.util.Pair;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Model {
@@ -26,6 +27,8 @@ public class Model {
 
     GameState mainGameState;
     MonteCarloSimulator monteCarloSimulator;
+    HashMap<Node, HashMap<Integer, HashSet<Node>>> precomputedMap;
+
 
     /**
      *
@@ -46,17 +49,17 @@ public class Model {
         initializeNeighbors();
 
 
-        thor = new Thor(map.get(0).get(0));
+        thor = new Thor(map.get(0).get(0), "Friendly Thor");
         map.get(0).get(0).occupant = thor;
-        enemyThor = new Thor(map.get(15).get(15));
+        enemyThor = new Thor(map.get(15).get(15), "Enemy Thor");
         map.get(15).get(15).occupant = enemyThor;
-        ironman = new Ironman(map.get(0).get(1));
+        ironman = new Ironman(map.get(0).get(1), "Friendly Ironman");
         map.get(0).get(1).occupant = ironman;
-        enemyIronman =  new Ironman(map.get(0).get(1));
+        enemyIronman =  new Ironman(map.get(15).get(14), "Enemy Ironman");
         map.get(15).get(14).occupant = enemyIronman;
-        captainAmerica = new CaptainAmerica(map.get(1).get(0));
+        captainAmerica = new CaptainAmerica(map.get(1).get(0), "Friendly Captain America");
         map.get(1).get(0).occupant = captainAmerica;
-        enemyCaptainAmerica = new CaptainAmerica(map.get(14).get(15));
+        enemyCaptainAmerica = new CaptainAmerica(map.get(14).get(15), "Enemy Captain America");
         map.get(14).get(15).occupant = enemyCaptainAmerica;
 
         ArrayList<Hero> friendlies = new ArrayList<Hero>();
@@ -66,7 +69,7 @@ public class Model {
         ArrayList<Hero> baddies = new ArrayList<Hero>();
         baddies.add(enemyThor);
         baddies.add(enemyIronman);
-        baddies.add(captainAmerica);
+        baddies.add(enemyCaptainAmerica);
         monteCarloSimulator = new MonteCarloSimulator();
         mainGameState = new GameState(friendlies, baddies, this);
     }
@@ -151,6 +154,9 @@ public class Model {
         double deltaY = goal.y - start.y;
         double incrementX = deltaX / 10;
         double incrementY = deltaY / 10;
+        if ( ! (calcDistance(start, goal) <= (double) range) ) {
+            return false;
+        }
         ArrayList<Node> inLine = new ArrayList<>();
         inLine.add(start);
         for (int i = 0; i < 10; i++) {
@@ -164,7 +170,7 @@ public class Model {
                 return false;
             }
         }
-        return calcDistance(start, goal) <= (double) range;
+        return true;
     }
 
     private double calcDistance (Node curr, Node target) {
@@ -378,8 +384,90 @@ public class Model {
         }
     }
 
-    public ArrayList<Node> getReachableNodes(Hero myHero){
-        ArrayList<Node> result = new ArrayList<>();
+    public void precomputeMovesMap() {
+        ArrayList<Node> allNodes = new ArrayList<Node>();
+        for (int i = 0; i<map.size(); i++) {
+            for (int j = 0; j < map.get(0).size(); j++) {
+                allNodes.add(map.get(i).get(j));
+            }
+        }
+        HashMap<Node, HashMap<Integer, HashSet<Node>>> out = new HashMap<Node, HashMap<Integer, HashSet<Node>>>();
+        for (Node node : allNodes) {
+            HashMap<Integer, HashSet<Node>> value = new HashMap<Integer, HashSet<Node>>();
+            for (int speed = 2; speed < 13; speed++) {
+                value.put(speed, getReachableNodes(node, speed));
+            }
+            out.put(node, value);
+        }
+        System.out.println(out);
+        precomputedMap = out;
+        //return out;
+    }
+
+    public HashSet<Node> getPrecomputedReachableNodes(Hero hero) {
+        return precomputedMap.get(hero.node).get(hero.speed[hero.click]);
+    }
+
+    public HashSet<Node> getReachableNodes(Node node, int speed) {
+        int distance = speed;
+        if (node.isWater)
+            distance/=2;
+        HashSet<Node> output = new HashSet<Node>();
+        HashSet<Node> lastLayer = new HashSet<Node>();
+        ;
+        output.add(node);
+        lastLayer.add(node);
+
+        for (int i = 0; i < distance; i++) {
+            HashSet<Node> currentLayer = new HashSet<Node>();
+            for (Node nodeInner : lastLayer) {
+                for (Node child : nodeInner.connectedNodes) {
+                    if (!output.contains(child)) {
+                        if (child.isWater && !nodeInner.isWater && !node.isWater) {
+                            output.add(child);
+                        }
+                        else {
+                            currentLayer.add(child);
+                        }
+                    }
+                }
+            }
+
+            for (Node nodeInner : currentLayer) {
+                output.add(nodeInner);
+            }
+            lastLayer = currentLayer;
+        }
+        return output;
+    }
+
+    public HashSet<Node> getReachableNodes(Hero myHero){
+        int distance = myHero.speed[myHero.click];
+        HashSet<Node> output = new HashSet<Node>();
+        HashSet<Node> lastLayer = new HashSet<Node>();;
+        output.add(myHero.node);
+        lastLayer.add(myHero.node);
+
+        for (int i = 0; i < distance; i++) {
+            HashSet<Node> currentLayer = new HashSet<Node>();
+            for (Node node : lastLayer) {
+                for (Node child : node.connectedNodes) {
+                    if (!output.contains(child)) {
+                        if (child.isWater)
+                        currentLayer.add(child);
+                    }
+                }
+            }
+
+            for (Node node : currentLayer) {
+                output.add(node);
+            }
+            lastLayer = currentLayer;
+        }
+        return output;
+        /*/ArrayList<Node> result = new ArrayList<>();
+        return myHero.node.connectedNodes;
+
         int mySpeed = myHero.speed[myHero.click];
         Node goal;
         Node start = map.get(myHero.x).get(myHero.y);
@@ -405,7 +493,7 @@ public class Model {
                 }
             }
         }
-        return result;
+        return result;/*/
     }
 
     public int getNumOfWaterInPath(ArrayList<Node> path) {

@@ -2,6 +2,7 @@ package sample;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class GameState {
     public int turnCounter = 0;
@@ -107,7 +108,8 @@ public class GameState {
 
         for (Hero hero : actionableHeroes) {
             //First let's find every valid Movement for each hero.
-            ArrayList<Node> reachableNodes = model.getReachableNodes(hero);
+            HashSet<Node> reachableNodes = model.getPrecomputedReachableNodes(hero); //model.getReachableNodes(hero);
+            //System.out.println(reachableNodes);
             for (Node node : reachableNodes) {
                 Move move = new Move(hero, node);
                 validActions.add(move);
@@ -121,10 +123,10 @@ public class GameState {
             //Now let's find every attackable hero and create an action to attack it.
             ArrayList<Hero> attackableHeroes;
             if (enemyTurn) {
-                attackableHeroes = getLivingEnemies();
+                attackableHeroes = getLivingFriendlies();
             }
             else {
-                attackableHeroes = getLivingFriendlies();
+                attackableHeroes = getLivingEnemies();
             }
 
             for (Hero attackableHero : attackableHeroes) {
@@ -149,7 +151,6 @@ public class GameState {
             }
         }
         if (allFriendlyHeroesKOd) {
-            System.out.println("All friendlies ko'd");
             return 0; //All the friendlies are KO'd, enemy wins.
         }
 
@@ -162,7 +163,6 @@ public class GameState {
             }
         }
         if (allEnemyHeroesKOd) {
-            System.out.println("All baddies ko'd");
             return 1; //All the enemies are KO'd, friendly wins.
         }
 

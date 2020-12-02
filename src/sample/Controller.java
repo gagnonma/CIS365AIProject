@@ -186,6 +186,7 @@ public class Controller implements Initializable {
         grid.cells[model.enemyIronman.y][model.enemyIronman.x].setText("Iron\nMan", true);
         grid.cells[model.enemyCaptainAmerica.y][model.enemyCaptainAmerica.x].setText("Cap", true);
 
+        grid.loadCells(defaultMap, defaultWaterMap);
 
 
         wallUp.setOnAction(event -> {
@@ -397,6 +398,12 @@ public class Controller implements Initializable {
         thorAction.setOnAction(event -> {
             model.monteCarloSimulator.getBestActionFromGameState(model.mainGameState);
         });
+
+        ironmanAction.setOnAction(event -> {
+            model.precomputeMovesMap();
+            System.out.println("Done precomputing move map.");
+        });
+
 
     }
 

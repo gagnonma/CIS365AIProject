@@ -1,8 +1,8 @@
 package sample;
 
 public class Thor extends Hero {
-    public Thor(Node position) {
-        super(position);
+    public Thor(Node position, String name) {
+        super(position, name);
         this.maxClick = 8;
         this.speed = new int[]{10,10,10,10,10,10,9,9,9};
         this.attack = new int[]{11,11,11,10,10,10,9,9,9};

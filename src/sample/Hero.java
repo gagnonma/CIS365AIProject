@@ -14,15 +14,17 @@ public class Hero implements  Cloneable{
     public Node node;
     public int costedActions;
     public int range;
+    String name;
 
 
-    public Hero(Node position) {
+    public Hero(Node position, String name) {
         this.node = position;
         this.x = position.x;
         this.y = position.y;
         this.click = 0;
         this.tokens = 0;
         this.costedActions = 0;
+        this.name = name;
     }
 
     public Hero(Hero hero) { //Copy constructor to create a clone of a hero object
@@ -40,6 +42,11 @@ public class Hero implements  Cloneable{
         this.node = hero.node;
         this.costedActions = hero.costedActions;
         this.range = hero.range;
+        this.name = hero.name;
+    }
+
+    public String toString() {
+        return name;
     }
 
     /*/public Hero(int x, int y) {

@@ -5,8 +5,8 @@ public class Ironman extends Hero {
     //    super(position);
     //}
 
-    public Ironman(Node position) {
-        super(position);
+    public Ironman(Node position, String name) {
+        super(position, name);
         this.maxClick = 6;
         this.speed = new int[]{8,7,7,6,6,6,5};
         this.attack = new int[]{11,11,11,10,10,10,9};
