@@ -108,32 +108,33 @@ public class GameState {
 //        System.out.println(actionableHeroes);
 
         for (Hero hero : actionableHeroes) {
-            //First let's find every valid Movement for each hero.
-            HashSet<Node> reachableNodes = model.getPrecomputedReachableNodes(hero); //model.getReachableNodes(hero);
-            //System.out.println(reachableNodes);
-            for (Node node : reachableNodes) {
-                Move move = new Move(hero, node);
-                validActions.add(move);
-            }
+            //If a hero has nonzero tokens, its always a move to clear its tokens.
+            ClearActionTokens clearActionTokens = new ClearActionTokens(hero);
+            validActions.add(clearActionTokens);
 
-            //if (hero.tokens > 0) { //If a hero has nonzero tokens, its always a move to clear its tokens.
-                ClearActionTokens clearActionTokens = new ClearActionTokens(hero);
-                validActions.add(clearActionTokens);
-            //}
+            if (hero.tokens < 2) {
+                //First let's find every valid Movement for each hero.
+                HashSet<Node> reachableNodes = model.getPrecomputedReachableNodes(hero); //model.getReachableNodes(hero);
+                //System.out.println(reachableNodes);
+                for (Node node : reachableNodes) {
+                    Move move = new Move(hero, node);
+                    validActions.add(move);
+                }
 
-            //Now let's find every attackable hero and create an action to attack it.
-            ArrayList<Hero> attackableHeroes;
-            if (enemyTurn) {
-                attackableHeroes = getLivingFriendlies();
-            }
-            else {
-                attackableHeroes = getLivingEnemies();
-            }
 
-            for (Hero attackableHero : attackableHeroes) {
-                if ( model.inRange(hero.node, attackableHero.node, hero.range) ) {
-                   BasicAttack attack = new BasicAttack (hero, attackableHero);
-                   validActions.add(attack);
+                //Now let's find every attackable hero and create an action to attack it.
+                ArrayList<Hero> attackableHeroes;
+                if (enemyTurn) {
+                    attackableHeroes = getLivingFriendlies();
+                } else {
+                    attackableHeroes = getLivingEnemies();
+                }
+
+                for (Hero attackableHero : attackableHeroes) {
+                    if (model.inRange(hero.node, attackableHero.node, hero.range)) {
+                        BasicAttack attack = new BasicAttack(hero, attackableHero);
+                        validActions.add(attack);
+                    }
                 }
             }
 

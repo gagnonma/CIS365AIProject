@@ -80,7 +80,10 @@ public class Hero implements  Cloneable{
         this.costedActions++;
     }
 
-    public void decrementTokens() {this.tokens--;}
+    public void decrementTokens() {
+        this.tokens--;
+        this.costedActions++;
+    }
 
     public Object clone() throws CloneNotSupportedException{
         return super.clone();
