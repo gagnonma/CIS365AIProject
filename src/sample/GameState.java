@@ -56,6 +56,11 @@ public class GameState {
     }
 
     public ArrayList<Action> getValidActions() {
+        ArrayList<Action> validActions = new ArrayList<Action>();
+        //First, we know that passing is always an option so we will add this action to the list immediately.
+        Pass pass = new Pass();
+        validActions.add(pass);
+
         ArrayList<Hero> heroes;
         if (enemyTurn) {
             heroes = getLivingEnemies();
@@ -65,7 +70,8 @@ public class GameState {
         }
 
         //heroes now represents the living heros on the side whose turn it is, i.e, all the heroes which could perform an action.
-        return new ArrayList<Action>();
+        //todo, this is literally the most important function in the monte carlo simulator, gotta finish it
+        return validActions;
     }
 
     public double evaluateTerminalState(int maxTurns) { //Returns -1 if not terminal, 0 for friendly loss, 0.5 for tie, 1 for friendly win

@@ -38,7 +38,7 @@ public class MonteCarloSimulator {
     public Action getBestActionFromGameState(GameState gameState) {
         ArrayList<Action> validActions = gameState.getValidActions();
         double bestScore = 0;
-        Action bestAction = new Action(); //todo, create a "Nothing" action for if none are available (ie the gamestate is terminal?)
+        Action bestAction = new Action();
         for (Action action : validActions) {
             double score = evaluateAction(gameState, action);
             if (score > bestScore) {
