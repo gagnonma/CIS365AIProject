@@ -393,6 +393,10 @@ public class Controller implements Initializable {
             enemyCapToken.setText("" + model.enemyCaptainAmerica.tokens);
         });
 
+        //todo ugly test
+        thorAction.setOnAction(event -> {
+            model.monteCarloSimulator.getBestActionFromGameState(model.mainGameState);
+        });
 
     }
 

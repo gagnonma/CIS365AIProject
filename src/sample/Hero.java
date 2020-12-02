@@ -56,7 +56,7 @@ public class Hero implements  Cloneable{
     }
 
     public boolean isKOd() {
-        return this.click >= this.maxClick;
+        return this.click > this.maxClick;
     }
 
     public void incrementClick() {

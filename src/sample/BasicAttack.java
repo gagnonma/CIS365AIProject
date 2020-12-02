@@ -19,9 +19,7 @@ public class BasicAttack extends Action{ //an action that has 1 hero attack anot
         multiply or divide, and then the sum of all modifiers.
         todo, implement this golden rule if the advanced modifiers are added
          */
-        if (attacker.tokens == 1) { //The attacker is pushing himself, so deal 1 click unavoidable damage
-            attacker.incrementClick();
-        }
+
         /*/
         STEP 2: CALCULATE ATTACK TOTAL
         In this step, the attacker calculates their attack total
@@ -59,8 +57,12 @@ public class BasicAttack extends Action{ //an action that has 1 hero attack anot
         else { //Not a hit
 
         }
+        if (attacker.tokens == 1) { //The attacker is pushing himself, so deal 1 click unavoidable damage
+            attacker.incrementClick();
+        }
         attacker.incrementTokens(); //increment the attacker's action tokens by 1 now that they've done the action.
         attacker.costedActions++;
+
     }
 
     public String toString() {

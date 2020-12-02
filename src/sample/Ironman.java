@@ -7,7 +7,7 @@ public class Ironman extends Hero {
 
     public Ironman(Node position) {
         super(position);
-        this.maxClick = 7;
+        this.maxClick = 6;
         this.speed = new int[]{8,7,7,6,6,6,5};
         this.attack = new int[]{11,11,11,10,10,10,9};
         this.defense = new int[]{18,18,18,17,17,17,17};

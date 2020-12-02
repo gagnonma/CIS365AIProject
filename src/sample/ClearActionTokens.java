@@ -12,6 +12,6 @@ public class ClearActionTokens extends Action{ //Clear the action tokens of 1 he
     }
 
     public String toString() {
-        return "Pass";
+        return "Clear action tokens for " + hero.toString();
     }
 }

@@ -12,6 +12,8 @@ public class GameState {
 
     public GameState(ArrayList<Hero> friendlyHeroList, ArrayList<Hero> enemyHeroList, Model m) {
         //Make a copy of each hero via copy constructor
+        friendlyHeroes = new ArrayList<Hero>();
+        enemyHeroes = new ArrayList<Hero>();
         for (Hero hero : friendlyHeroList) {
             Hero clone = new Hero(hero);
             friendlyHeroes.add(clone);
@@ -27,6 +29,9 @@ public class GameState {
     public GameState(GameState state) { //Copy constructor
         this.turnCounter = state.turnCounter;
         this.enemyTurn = state.enemyTurn;
+        this.model = state.model;
+        friendlyHeroes = new ArrayList<Hero>();
+        enemyHeroes = new ArrayList<Hero>();
         for (Hero hero : state.friendlyHeroes) {
             Hero clone = new Hero(hero);
             this.friendlyHeroes.add(clone);
@@ -82,14 +87,14 @@ public class GameState {
         {
             actionableHeroes = getLivingFriendlies();
         }
-
+        ArrayList<Hero> heroesWithActionsLeft = new ArrayList<Hero>();
         for (Hero hero : actionableHeroes) { //Go back and remove the ones who don't have 0 costed actions
-            if (hero.costedActions > 0) {
-                actionableHeroes.remove(hero);
+            if (hero.costedActions <= 0) {
+                heroesWithActionsLeft.add(hero);
             }
         }
 
-        return actionableHeroes;
+        return heroesWithActionsLeft;
     }
 
     public ArrayList<Action> getValidActions() {
@@ -100,7 +105,6 @@ public class GameState {
 
         ArrayList<Hero> actionableHeroes = getActionableHeroes();
 
-
         for (Hero hero : actionableHeroes) {
             //First let's find every valid Movement for each hero.
             ArrayList<Node> reachableNodes = model.getReachableNodes(hero);
@@ -109,10 +113,10 @@ public class GameState {
                 validActions.add(move);
             }
 
-            if (hero.tokens > 0) { //If a hero has nonzero tokens, its always a move to clear its tokens.
+            //if (hero.tokens > 0) { //If a hero has nonzero tokens, its always a move to clear its tokens.
                 ClearActionTokens clearActionTokens = new ClearActionTokens(hero);
                 validActions.add(clearActionTokens);
-            }
+            //}
 
             //Now let's find every attackable hero and create an action to attack it.
             ArrayList<Hero> attackableHeroes;
@@ -145,6 +149,7 @@ public class GameState {
             }
         }
         if (allFriendlyHeroesKOd) {
+            System.out.println("All friendlies ko'd");
             return 0; //All the friendlies are KO'd, enemy wins.
         }
 
@@ -157,6 +162,7 @@ public class GameState {
             }
         }
         if (allEnemyHeroesKOd) {
+            System.out.println("All baddies ko'd");
             return 1; //All the enemies are KO'd, friendly wins.
         }
 

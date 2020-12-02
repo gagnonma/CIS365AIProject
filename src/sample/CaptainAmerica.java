@@ -4,7 +4,7 @@ public class CaptainAmerica extends Hero {
 
     public CaptainAmerica(Node position) {
         super(position);
-        this.maxClick = 6;
+        this.maxClick = 5;
         this.speed = new int[]{8, 7, 7, 6, 6, 5};
         this.attack = new int[]{11,10,10,9,9,9};
         this.defense = new int[]{17,17,17,16,16,17};

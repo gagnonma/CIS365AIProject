@@ -24,6 +24,8 @@ public class Model {
     Hero enemyIronman;
     Hero enemyCaptainAmerica;
 
+    GameState mainGameState;
+    MonteCarloSimulator monteCarloSimulator;
 
     /**
      *
@@ -56,6 +58,17 @@ public class Model {
         map.get(1).get(0).occupant = captainAmerica;
         enemyCaptainAmerica = new CaptainAmerica(map.get(14).get(15));
         map.get(14).get(15).occupant = enemyCaptainAmerica;
+
+        ArrayList<Hero> friendlies = new ArrayList<Hero>();
+        friendlies.add(thor);
+        friendlies.add(ironman);
+        friendlies.add(captainAmerica);
+        ArrayList<Hero> baddies = new ArrayList<Hero>();
+        baddies.add(enemyThor);
+        baddies.add(enemyIronman);
+        baddies.add(captainAmerica);
+        monteCarloSimulator = new MonteCarloSimulator();
+        mainGameState = new GameState(friendlies, baddies, this);
     }
 
     public void selectNode(int x, int y) {
