@@ -12,13 +12,14 @@ public class MonteCarloSimulator {
 
     public double rollout(GameState gameState, Action action) { //Returns the value of one rollout for an action - 0 is a loss, 1 is a win, 0.5 is a tie.
         Random rand = new Random();
-        GameState state = action.getNewGameStateFromAction(gameState); //Perform the first, chosen action
+        GameState state = new GameState(gameState); //Copy the gameState so we don't affect the original
+        action.applyActionToGameState(gameState); //Perform the first, chosen action
         double evaluation = state.evaluateTerminalState(MAX_ROLLOUT_DEPTH_TURNS);
         while(evaluation == -1) { //While we haven't reached a terminal state
             ArrayList<Action> validActions = state.getValidActions();
             //Pick a random action from the valid ones, todo, perhaps bias these to be more realistic (ie, weight attacks more than moves)
             Action chosenAction = validActions.get(rand.nextInt(validActions.size()));
-            state = chosenAction.getNewGameStateFromAction(state); //Generate the next gamestate from the action.
+            chosenAction.applyActionToGameState(state); //Apply the action to the game state
 
             evaluation = state.evaluateTerminalState(MAX_ROLLOUT_DEPTH_TURNS);
         }

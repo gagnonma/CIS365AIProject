@@ -11,6 +11,7 @@ public class Hero implements  Cloneable{
     public int[] defense;
     public int[] damage;
     public boolean canFly;
+    //public Node node;
 
 
 
@@ -44,6 +45,7 @@ public class Hero implements  Cloneable{
     public void setLocation(int newX, int newY) {
         this.x = newX;
         this.y = newY;
+        //this.node = map.get(this.x).get(this.y);
     }
 
     public boolean isKOd() {
