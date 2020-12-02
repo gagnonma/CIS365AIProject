@@ -7,7 +7,7 @@ public class Pass extends Action{ //an action that passes the turn
 
     public void applyActionToGameState(GameState gameState) {
         gameState.turnCounter++;
-        //When your a ends, all heroes action tokens are reset to 0 (i think)
+        //When a turn ends, all heroes action tokens are reset to 0 (i think)
         for (Hero hero : gameState.enemyHeroes) {
             hero.tokens = 0;
         }
@@ -15,5 +15,9 @@ public class Pass extends Action{ //an action that passes the turn
             hero.tokens = 0;
         }
         gameState.enemyTurn = !gameState.enemyTurn;
+    }
+
+    public String toString() {
+        return "Pass";
     }
 }

@@ -61,4 +61,8 @@ public class BasicAttack extends Action{ //an action that has 1 hero attack anot
         }
         attacker.incrementTokens(); //increment the attacker's action tokens by 1 now that they've done the action.
     }
+
+    public String toString() {
+        return attacker.toString() + " attacks " + victim.toString();
+    }
 }

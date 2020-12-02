@@ -14,4 +14,8 @@ public class Move extends Action{ //an action that moves a hero to a new map pos
         hero.incrementTokens();
         //todo, the hero should store the specific node, it would make things easier
     }
+
+    public String toString() {
+        return "Move " + hero.toString() + " to " + node.name;
+    }
 }
