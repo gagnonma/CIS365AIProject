@@ -41,12 +41,17 @@ public class MonteCarloSimulator {
         Action bestAction = new Action();
         for (Action action : validActions) {
             double score = evaluateAction(gameState, action);
+            //todo debug info, remove?
+            System.out.println("Evaluation of action: " + action.toString() + " = " + String.valueOf(score));
+            //
             if (score > bestScore) {
                 bestScore = score;
                 bestAction = action;
             }
         }
-
+        //todo debug info, remove?
+        System.out.println("Best action is: " + bestAction.toString() + ", probability of win: " + String.valueOf(bestScore));
+        //
         return bestAction;
     }
 }

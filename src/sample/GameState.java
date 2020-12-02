@@ -8,8 +8,9 @@ public class GameState {
     public boolean enemyTurn = false;
     public ArrayList<Hero> friendlyHeroes;
     public ArrayList<Hero> enemyHeroes;
+    Model model;
 
-    public GameState(ArrayList<Hero> friendlyHeroList, ArrayList<Hero> enemyHeroList) {
+    public GameState(ArrayList<Hero> friendlyHeroList, ArrayList<Hero> enemyHeroList, Model m) {
         //Make a copy of each hero via copy constructor
         for (Hero hero : friendlyHeroList) {
             Hero clone = new Hero(hero);
@@ -20,6 +21,7 @@ public class GameState {
             Hero clone = new Hero(hero);
             enemyHeroes.add(clone);
         }
+        model = m;
     }
 
     public GameState(GameState state) { //Copy constructor
@@ -34,6 +36,22 @@ public class GameState {
             this.enemyHeroes.add(clone);
         }
     }
+
+    /*public ArrayList<Node> getNodesFromNode(Node node, int distance) { //Returns a list of reachable nodes within distance of node
+        ArrayList<Node> reachable = new ArrayList<Node>();
+        reachable.add(node);
+        int lastIndex = 0;
+        for (int i = 0; i < distance; i++) {
+            for (int k = lastIndex; k < reachable.size(); k++) {
+                Node n = reachable.get(k);
+                for (Node child : n.connectedNodes) {
+                    if (!reachable.contains(child)) {
+                        reachable.add(child);
+                    }
+                }
+            }
+        }
+    }*/
 
     public ArrayList<Hero> getLivingFriendlies() {
         ArrayList<Hero> livingFriendlies = new ArrayList<Hero>();
@@ -82,6 +100,37 @@ public class GameState {
 
         ArrayList<Hero> actionableHeroes = getActionableHeroes();
 
+
+        for (Hero hero : actionableHeroes) {
+            //First let's find every valid Movement for each hero.
+            ArrayList<Node> reachableNodes = model.getReachableNodes(hero);
+            for (Node node : reachableNodes) {
+                Move move = new Move(hero, node);
+                validActions.add(move);
+            }
+
+            if (hero.tokens > 0) { //If a hero has nonzero tokens, its always a move to clear its tokens.
+                ClearActionTokens clearActionTokens = new ClearActionTokens(hero);
+                validActions.add(clearActionTokens);
+            }
+
+            //Now let's find every attackable hero and create an action to attack it.
+            ArrayList<Hero> attackableHeroes;
+            if (enemyTurn) {
+                attackableHeroes = getLivingEnemies();
+            }
+            else {
+                attackableHeroes = getLivingFriendlies();
+            }
+
+            for (Hero attackableHero : attackableHeroes) {
+                if ( model.inRange(hero.node, attackableHero.node, hero.range) ) {
+                   BasicAttack attack = new BasicAttack (hero, attackableHero);
+                   validActions.add(attack);
+                }
+            }
+
+        }
 
         return validActions;
     }
