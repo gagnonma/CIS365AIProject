@@ -105,6 +105,7 @@ public class GameState {
         validActions.add(endTurn);
 
         ArrayList<Hero> actionableHeroes = getActionableHeroes();
+//        System.out.println(actionableHeroes);
 
         for (Hero hero : actionableHeroes) {
             //First let's find every valid Movement for each hero.

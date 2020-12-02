@@ -91,9 +91,9 @@
                     <Button mnemonicParsing="false" text="Move"  fx:id="capMove"/>
                 </VBox>
                 <VBox>
-                    <Button mnemonicParsing="false" text="What Should Thor Do?"  fx:id="thorAction"/>
-                    <Button mnemonicParsing="false" text="What Should IronMan Do?"  fx:id="ironmanAction"/>
-                    <Button mnemonicParsing="false" text="What Should Captain America Do?"  fx:id="capAction"/>
+                    <Button mnemonicParsing="false" text="What Move Should We Do?"  fx:id="getMove"/>
+                    <Button mnemonicParsing="false" text="Precompute Reachable Nodes"  fx:id="precompute"/>
+                    <Button mnemonicParsing="false" text="End Turn"  fx:id="endTurn"/>
                 </VBox>
                 <VBox>
                     <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">

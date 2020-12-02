@@ -44,6 +44,8 @@ public class MonteCarloSimulator {
     public Action getBestActionFromGameState(GameState gameState) {
         //GameState state = new GameState(gameState); //Copy the gameState so we don't affect the original
         ArrayList<Action> validActions = gameState.getValidActions();
+//        System.out.println(validActions);
+        System.out.println(gameState.getActionableHeroes());
         double bestScore = 0;
         int bestActionIndex = 0;
         Action bestAction = new Action();

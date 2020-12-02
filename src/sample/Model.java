@@ -62,6 +62,12 @@ public class Model {
         enemyCaptainAmerica = new CaptainAmerica(map.get(14).get(15), "Enemy Captain America");
         map.get(14).get(15).occupant = enemyCaptainAmerica;
 
+
+        monteCarloSimulator = new MonteCarloSimulator();
+
+    }
+
+    public void getBestMove() {
         ArrayList<Hero> friendlies = new ArrayList<Hero>();
         friendlies.add(thor);
         friendlies.add(ironman);
@@ -70,8 +76,8 @@ public class Model {
         baddies.add(enemyThor);
         baddies.add(enemyIronman);
         baddies.add(enemyCaptainAmerica);
-        monteCarloSimulator = new MonteCarloSimulator();
         mainGameState = new GameState(friendlies, baddies, this);
+        monteCarloSimulator.getBestActionFromGameState(mainGameState);
     }
 
     public void selectNode(int x, int y) {

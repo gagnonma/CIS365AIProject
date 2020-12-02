@@ -136,11 +136,11 @@ public class Controller implements Initializable {
     @FXML
     Text enemyCapToken;
     @FXML
-    Button thorAction;
+    Button getMove;
     @FXML
-    Button ironmanAction;
+    Button precompute;
     @FXML
-    Button capAction;
+    Button endTurn;
 
 
     boolean showHoverCursor = true;
@@ -395,13 +395,22 @@ public class Controller implements Initializable {
         });
 
         //todo ugly test
-        thorAction.setOnAction(event -> {
-            model.monteCarloSimulator.getBestActionFromGameState(model.mainGameState);
+        getMove.setOnAction(event -> {
+            model.getBestMove();
         });
 
-        ironmanAction.setOnAction(event -> {
+        precompute.setOnAction(event -> {
             model.precomputeMovesMap();
             System.out.println("Done precomputing move map.");
+        });
+
+        endTurn.setOnAction(event -> {
+            model.thor.costedActions = 0;
+            model.ironman.costedActions = 0;
+            model.captainAmerica.costedActions = 0;
+            model.enemyThor.costedActions = 0;
+            model.enemyIronman.costedActions = 0;
+            model.enemyCaptainAmerica.costedActions = 0;
         });
 
 

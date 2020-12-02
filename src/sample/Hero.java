@@ -66,7 +66,8 @@ public class Hero implements  Cloneable{
         return this.click > this.maxClick;
     }
 
-    public void incrementClick() {
+    public void incrementClick()
+    {
         this.click++;
     }
 
@@ -74,7 +75,10 @@ public class Hero implements  Cloneable{
         this.click--;
     }
 
-    public void incrementTokens() {this.tokens++;}
+    public void incrementTokens() {
+        this.tokens++;
+        this.costedActions++;
+    }
 
     public void decrementTokens() {this.tokens--;}
 
