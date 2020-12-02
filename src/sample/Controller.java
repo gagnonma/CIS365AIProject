@@ -710,10 +710,10 @@ public class Controller implements Initializable {
                     cell.addWater();
             }
             model.selectNode(cell.column,cell.row);
-            ArrayList<sample.Node> path =  model.getReachableNodes(model.thor);
-            for (sample.Node p: path) {
-                grid.cells[p.y][p.x].setPath();
-            }
+            //ArrayList<sample.Node> path =  model.getReachableNodes(model.thor);
+            //for (sample.Node p: path) {
+                //grid.cells[p.y][p.x].setPath();
+            //}
 
 
         };
