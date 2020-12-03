@@ -396,7 +396,11 @@ public class Controller implements Initializable {
 
         //todo ugly test
         getMove.setOnAction(event -> {
-            model.getBestMove();
+            try {
+                model.getBestMove();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         });
 
         precompute.setOnAction(event -> {
@@ -659,7 +663,7 @@ public class Controller implements Initializable {
                     @Override
                     public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 
-                        System.out.println( observable + ": " + newValue);
+                        //System.out.println( observable + ": " + newValue);
 
                         if( newValue) {
                             ((Cell) node).hoverHighlight();
@@ -667,7 +671,7 @@ public class Controller implements Initializable {
                             ((Cell) node).hoverUnhighlight();
                         }
 
-                        System.out.println(node + " : " +  model.map.get(((Cell) node).column).get(((Cell) node).row) + " : " + model.map.get(((Cell) node).column).get(((Cell) node).row).connectedNodes);
+                        //System.out.println(node + " : " +  model.map.get(((Cell) node).column).get(((Cell) node).row) + " : " + model.map.get(((Cell) node).column).get(((Cell) node).row).connectedNodes);
 //                        for( String s: node.getStyleClass())
 //                            System.out.println( node + ": " + s);
                     }

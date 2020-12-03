@@ -67,7 +67,7 @@ public class Model {
 
     }
 
-    public void getBestMove() {
+    public void getBestMove() throws InterruptedException {
         ArrayList<Hero> friendlies = new ArrayList<Hero>();
         friendlies.add(thor);
         friendlies.add(ironman);

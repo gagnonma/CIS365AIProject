@@ -42,7 +42,7 @@ public class MonteCarloSimulator {
     }
 
     public Action getBestActionFromGameState(GameState gameState) {
-        //GameState state = new GameState(gameState); //Copy the gameState so we don't affect the original
+        GameState state = new GameState(gameState); //Copy the gameState so we don't affect the original
         ArrayList<Action> validActions = gameState.getValidActions();
 //        System.out.println(validActions);
         System.out.println(gameState.getActionableHeroes());
@@ -55,6 +55,7 @@ public class MonteCarloSimulator {
             //System.out.println("Turn number " + stateCopy.turnCounter);
             ArrayList<Action> realActions = stateCopy.getValidActions();
             Action realAction = realActions.get(i);
+
             double score = evaluateAction(stateCopy, realAction);
             //System.out.println(realAction.toString() + " evaluates to: " + score);
             if (score > bestScore) {
@@ -65,16 +66,16 @@ public class MonteCarloSimulator {
 
         bestAction = validActions.get(bestActionIndex);
 
-        /*for (Action action : validActions) {
+        for (Action action : validActions) {
             double score = evaluateAction(state, action);
             //todo debug info, remove?
-            System.out.println("Evaluation of action: " + action.toString() + " = " + String.valueOf(score));
+            //System.out.println("Evaluation of action: " + action.toString() + " = " + String.valueOf(score));
             //
             if (score > bestScore) {
                 bestScore = score;
                 bestAction = action;
             }
-        }/*/
+        }
         //todo debug info, remove?
         System.out.println("Best action is: " + bestAction.toString() + ", probability of win: " + String.valueOf(bestScore));
         //

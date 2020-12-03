@@ -14,6 +14,7 @@ public class Hero implements  Cloneable{
     public Node node;
     public int costedActions;
     public int range;
+    public boolean dead;
     String name;
 
 
@@ -25,6 +26,7 @@ public class Hero implements  Cloneable{
         this.tokens = 0;
         this.costedActions = 0;
         this.name = name;
+        this.dead = false;
     }
 
     public Hero(Hero hero) { //Copy constructor to create a clone of a hero object
@@ -43,6 +45,7 @@ public class Hero implements  Cloneable{
         this.costedActions = hero.costedActions;
         this.range = hero.range;
         this.name = hero.name;
+        this.dead = hero.dead;
     }
 
     public String toString() {
@@ -63,7 +66,11 @@ public class Hero implements  Cloneable{
     }
 
     public boolean isKOd() {
-        return this.click > this.maxClick;
+        if (dead)
+            return true;
+        else
+            dead = this.click > this.maxClick;
+        return dead;
     }
 
     public void incrementClick()

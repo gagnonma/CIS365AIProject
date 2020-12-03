@@ -11,18 +11,23 @@ public class GameState {
     public ArrayList<Hero> enemyHeroes;
     Model model;
 
+    public HashSet<Node> occupiedNodes;
+
     public GameState(ArrayList<Hero> friendlyHeroList, ArrayList<Hero> enemyHeroList, Model m) {
         //Make a copy of each hero via copy constructor
         friendlyHeroes = new ArrayList<Hero>();
         enemyHeroes = new ArrayList<Hero>();
+        occupiedNodes = new HashSet<Node>();
         for (Hero hero : friendlyHeroList) {
             Hero clone = new Hero(hero);
             friendlyHeroes.add(clone);
+            occupiedNodes.add(hero.node);
         }
 
         for (Hero hero : enemyHeroList) {
             Hero clone = new Hero(hero);
             enemyHeroes.add(clone);
+            occupiedNodes.add(hero.node);
         }
         model = m;
     }
@@ -41,6 +46,7 @@ public class GameState {
             Hero clone = new Hero(hero);
             this.enemyHeroes.add(clone);
         }
+        this.occupiedNodes = (HashSet<Node>) state.occupiedNodes.clone();
     }
 
     /*public ArrayList<Node> getNodesFromNode(Node node, int distance) { //Returns a list of reachable nodes within distance of node
@@ -79,6 +85,13 @@ public class GameState {
         return livingEnemies;
     }
 
+    public ArrayList<Hero> getLivingHeroes () { //Get all living heroes regardless of team
+        ArrayList<Hero> livingHeroes = new ArrayList<Hero>();;
+        livingHeroes.addAll(getLivingFriendlies());
+        livingHeroes.addAll(getLivingEnemies());
+        return livingHeroes;
+    }
+
     public ArrayList<Hero> getActionableHeroes() { //Gets an array of all heroes who could perform an action (ie, it's their turn, they're alive, and they have 0 costed actions)
         ArrayList<Hero> actionableHeroes;
         if (enemyTurn) {
@@ -115,29 +128,30 @@ public class GameState {
             if (hero.tokens < 2) {
                 //First let's find every valid Movement for each hero.
                 HashSet<Node> reachableNodes = model.getPrecomputedReachableNodes(hero); //model.getReachableNodes(hero);
-                //System.out.println(reachableNodes);
+                //System.out.println(reachableNodes);W
                 for (Node node : reachableNodes) {
-                    Move move = new Move(hero, node);
-                    validActions.add(move);
-                }
-
-
-                //Now let's find every attackable hero and create an action to attack it.
-                ArrayList<Hero> attackableHeroes;
-                if (enemyTurn) {
-                    attackableHeroes = getLivingFriendlies();
-                } else {
-                    attackableHeroes = getLivingEnemies();
-                }
-
-                for (Hero attackableHero : attackableHeroes) {
-                    if (model.inRange(hero.node, attackableHero.node, hero.range)) {
-                        BasicAttack attack = new BasicAttack(hero, attackableHero);
-                        validActions.add(attack);
+                    if (!occupiedNodes.contains(node)) {
+                        Move move = new Move(hero, node);
+                        validActions.add(move);
                     }
                 }
             }
 
+
+            //Now let's find every attackable hero and create an action to attack it.
+            ArrayList<Hero> attackableHeroes;
+            if (enemyTurn) {
+                attackableHeroes = getLivingFriendlies();
+            } else {
+                attackableHeroes = getLivingEnemies();
+            }
+
+            for (Hero attackableHero : attackableHeroes) {
+                if (model.inRange(hero.node, attackableHero.node, hero.range)) {
+                    BasicAttack attack = new BasicAttack(hero, attackableHero);
+                    validActions.add(attack);
+                }
+            }
         }
 
         return validActions;
