@@ -188,6 +188,9 @@ public class Controller implements Initializable {
 
         grid.loadCells(defaultMap, defaultWaterMap);
 
+        model.precomputeMovesMap();
+        System.out.println("Done precomputing move map.");
+
 
         wallUp.setOnAction(event -> {
             wall.setText("Add Wall Up");
@@ -551,6 +554,10 @@ public class Controller implements Initializable {
         int row;
         char wall;
         boolean water;
+        String prevText;
+        String currText;
+        Boolean isCurrTextEnemy;
+        Boolean isPrevTextEnemy;
 
         public Cell(int column, int row) {
 
@@ -558,6 +565,10 @@ public class Controller implements Initializable {
             this.column = column;
             this.row = row;
             this.wall = '0';
+            this.prevText = "";
+            this.currText = "";
+            this.isPrevTextEnemy = false;
+            this.isCurrTextEnemy  = false;
             getChildren().add(new Text(""));
 
             getStyleClass().add("cell");
@@ -605,9 +616,16 @@ public class Controller implements Initializable {
         }
 
         public void setText(String s, Boolean isEnemy) {
+            this.prevText = currText;
+            this.isPrevTextEnemy = this.isCurrTextEnemy;
+            this.currText = s;
             Text newText =  new Text(s);
-            if (isEnemy)
+            if (isEnemy) {
+                this.isCurrTextEnemy = true;
                 newText.setFill(Color.RED);
+            }else {
+                this.isCurrTextEnemy = false;
+            }
             this.getChildren().set(0, newText);
         }
 
@@ -666,12 +684,15 @@ public class Controller implements Initializable {
                         //System.out.println( observable + ": " + newValue);
 
                         if( newValue) {
+                            ((Cell) node).setText(model.map.get(((Cell) node).column).get(((Cell) node).row).toString().substring(11,model.map.get(((Cell) node).column).get(((Cell) node).row).toString().length()-2), false);
                             ((Cell) node).hoverHighlight();
                         } else {
+                            ((Cell) node).setText(((Cell) node).prevText,((Cell) node).isPrevTextEnemy);
                             ((Cell) node).hoverUnhighlight();
                         }
 
-                        //System.out.println(node + " : " +  model.map.get(((Cell) node).column).get(((Cell) node).row) + " : " + model.map.get(((Cell) node).column).get(((Cell) node).row).connectedNodes);
+//                        System.out.println( model.map.get(((Cell) node).column).get(((Cell) node).row));
+//                        System.out.println(node + " : " +  model.map.get(((Cell) node).column).get(((Cell) node).row) + " : " + model.map.get(((Cell) node).column).get(((Cell) node).row).connectedNodes);
 //                        for( String s: node.getStyleClass())
 //                            System.out.println( node + ": " + s);
                     }
@@ -680,8 +701,8 @@ public class Controller implements Initializable {
             }
 
             node.setOnMousePressed( onMousePressedEventHandler);
-            node.setOnDragDetected( onDragDetectedEventHandler);
-            node.setOnMouseDragEntered(onMouseDragEnteredEventHandler);
+//            node.setOnDragDetected( onDragDetectedEventHandler);
+//            node.setOnMouseDragEntered(onMouseDragEnteredEventHandler);
 
         }
 
@@ -719,26 +740,35 @@ public class Controller implements Initializable {
                 case THOR:
                     grid.cells[model.thor.y][model.thor.x].setText("",false);
                     cell.setText("Thor",false);
+                    cell.prevText = "Thor";
                     break;
                 case IRONMAN:
                     grid.cells[model.ironman.y][model.ironman.x].setText("",false);
                     cell.setText("Iron\nMan",false);
+                    cell.prevText = "Iron\nMan";
                     break;
                 case CAP_AMERICA:
                     grid.cells[model.captainAmerica.y][model.captainAmerica.x].setText("",false);
                     cell.setText("Cap",false);
+                    cell.prevText = "Cap";
                     break;
                 case E_THOR:
                     grid.cells[model.enemyThor.y][model.enemyThor.x].setText("",false);
                     cell.setText("Thor",true);
+                    cell.prevText = "Thor";
+                    cell.isPrevTextEnemy = true;
                     break;
                 case E_IRONMAN:
                     grid.cells[model.enemyIronman.y][model.enemyIronman.x].setText("",false);
                     cell.setText("Iron\nMan",true);
+                    cell.prevText = "Iron\nMan";
+                    cell.isPrevTextEnemy = true;
                     break;
                 case E_CAP_AMERICA:
                     grid.cells[model.enemyCaptainAmerica.y][model.enemyCaptainAmerica.x].setText("",false);
                     cell.setText("Cap",true);
+                    cell.prevText = "Cap";
+                    cell.isPrevTextEnemy = true;
                     break;
                 case WATER:
                     cell.addWater();
@@ -752,46 +782,46 @@ public class Controller implements Initializable {
 
         };
 
-        EventHandler<MouseEvent> onMouseDraggedEventHandler = event -> {
-
-            PickResult pickResult = event.getPickResult();
-            Node node = pickResult.getIntersectedNode();
-
-            if( node instanceof Cell) {
-
-                Cell cell = (Cell) node;
-
-                if( event.isPrimaryButtonDown()) {
-                    cell.highlight();
-                } else if( event.isSecondaryButtonDown()) {
-                    cell.unhighlight();
-                }
-
-            }
-
-        };
-
-        EventHandler<MouseEvent> onMouseReleasedEventHandler = event -> {
-        };
-
-        EventHandler<MouseEvent> onDragDetectedEventHandler = event -> {
-
-            Cell cell = (Cell) event.getSource();
-            cell.startFullDrag();
-
-        };
-
-        EventHandler<MouseEvent> onMouseDragEnteredEventHandler = event -> {
-
-            Cell cell = (Cell) event.getSource();
-
-            if( event.isPrimaryButtonDown()) {
-                cell.highlight();
-            } else if( event.isSecondaryButtonDown()) {
-                cell.unhighlight();
-            }
-
-        };
+//        EventHandler<MouseEvent> onMouseDraggedEventHandler = event -> {
+//
+//            PickResult pickResult = event.getPickResult();
+//            Node node = pickResult.getIntersectedNode();
+//
+//            if( node instanceof Cell) {
+//
+//                Cell cell = (Cell) node;
+//
+//                if( event.isPrimaryButtonDown()) {
+//                    cell.highlight();
+//                } else if( event.isSecondaryButtonDown()) {
+//                    cell.unhighlight();
+//                }
+//
+//            }
+//
+//        };
+//
+//        EventHandler<MouseEvent> onMouseReleasedEventHandler = event -> {
+//        };
+//
+//        EventHandler<MouseEvent> onDragDetectedEventHandler = event -> {
+//
+//            Cell cell = (Cell) event.getSource();
+//            cell.startFullDrag();
+//
+//        };
+//
+//        EventHandler<MouseEvent> onMouseDragEnteredEventHandler = event -> {
+//
+//            Cell cell = (Cell) event.getSource();
+//
+//            if( event.isPrimaryButtonDown()) {
+//                cell.highlight();
+//            } else if( event.isSecondaryButtonDown()) {
+//                cell.unhighlight();
+//            }
+//
+//        };
 
     }
 }
