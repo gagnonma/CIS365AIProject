@@ -10,7 +10,7 @@ public class Model {
 
     enum SelectMode {
             WALLUP, WALLDOWN, WALLRIGHT, WALLLEFT, START, GOAL, CLEAR,
-        THOR, IRONMAN, CAP_AMERICA, E_THOR, E_IRONMAN, E_CAP_AMERICA, WATER
+        THOR, IRONMAN, CAP_AMERICA, E_THOR, E_IRONMAN, E_CAP_AMERICA, WATER, NOTHING
     }
 
     private SelectMode currentMode;
@@ -37,7 +37,7 @@ public class Model {
 
 
     public Model () {
-        setCurrentMode(SelectMode.CLEAR);
+        setCurrentMode(SelectMode.NOTHING);
         map = new ArrayList<>();
         for (int i = 0; i < 16; i++) { //Columns
             map.add(new ArrayList<>());
@@ -120,11 +120,20 @@ public class Model {
     }
 
     public void moveHero(Hero myHero, int x, int y) {
-        map.get(myHero.x).get(myHero.y).occupant = null;
+        if (!myHero.dead) {
+            map.get(myHero.x).get(myHero.y).occupant = null;
+        }
         myHero.setLocation(x,y);
         myHero.node = map.get(x).get(y);
         map.get(myHero.x).get(myHero.y).occupant = myHero;
-        System.out.println(getPrecomputedReachableNodes(myHero));
+        myHero.dead = false;
+    }
+
+    public void removeHero(Hero myHero) {
+        map.get(myHero.x).get(myHero.y).occupant = null;
+        myHero.setLocation(-1,-1);
+        myHero.node = null;
+        myHero.dead = true;
     }
 
     public ArrayList<Node> findPath(Node start, Node goal) {

@@ -37,9 +37,10 @@ public class BasicAttack extends Action{ //an action that has 1 hero attack anot
         total. The attack roll and attack total are then finalized.
          */
         Random rand = new Random();
+        Random rand2 = new Random();
         int attackValue = attacker.attack[attacker.click];
-        int roll1 = rand.nextInt(6);
-        int roll2 = rand.nextInt(6);
+        int roll1 = rand.nextInt(7);
+        int roll2 = rand2.nextInt(7);
         int attackRoll = roll1 + roll2;
         int attackTotal = attackValue + attackRoll;
         int damage = attacker.damage[attacker.click];
@@ -48,8 +49,9 @@ public class BasicAttack extends Action{ //an action that has 1 hero attack anot
         if (roll1 == 1 && roll2 == 1) { //Critical miss, attacker takes 1 unavoidable damage
             attacker.incrementClick();
         }
-        else if (roll1 == 6 && roll2 ==6) { //Critical hit, increases damage dealt by 1
+        else if (roll1 == 6 && roll2 == 6) { //Critical hit, increases damage dealt by 1
             damage++;
+            victim.click += damage;
         }
         else if (attackTotal >= victim.defense[victim.click]) { //Hit
             victim.click += damage;

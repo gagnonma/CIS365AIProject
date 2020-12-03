@@ -37,18 +37,19 @@
                         </image>
                     </ImageView>
                     <HBox>
-                        <Text text="  C  "></Text>
+                        <Text text="  C  "/>
                         <Button mnemonicParsing="false" text="-" fx:id="thorMinus"/>
-                        <Text text="0" fx:id="thorClick"></Text>
+                        <Text text="0" fx:id="thorClick"/>
                         <Button mnemonicParsing="false" text="+" fx:id="thorPlus"/>
                     </HBox>
                     <HBox>
-                        <Text text="  A  "></Text>
+                        <Text text="  A  "/>
                         <Button mnemonicParsing="false" text="-" fx:id="thorTokenMinus"/>
-                        <Text text="0" fx:id="thorToken"></Text>
+                        <Text text="0" fx:id="thorToken"/>
                         <Button mnemonicParsing="false" text="+" fx:id="thorTokenPlus"/>
                     </HBox>
                     <Button mnemonicParsing="false" text="Move"  fx:id="thorMove"/>
+                    <Button mnemonicParsing="false" text="Remove" fx:id="thorRemove"/>
                 </VBox>
                 <VBox>
                     <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
@@ -57,18 +58,19 @@
                         </image>
                     </ImageView>
                     <HBox>
-                        <Text text="  C  "></Text>
+                        <Text text="  C  "/>
                         <Button mnemonicParsing="false" text="-" fx:id="ironmanMinus"/>
-                        <Text text="0" fx:id="ironmanClick"></Text>
+                        <Text text="0" fx:id="ironmanClick"/>
                         <Button mnemonicParsing="false" text="+" fx:id="ironmanPlus"/>
                     </HBox>
                     <HBox>
-                        <Text text="  A  "></Text>
+                        <Text text="  A  "/>
                         <Button mnemonicParsing="false" text="-" fx:id="ironmanTokenMinus"/>
-                        <Text text="0" fx:id="ironmanToken"></Text>
+                        <Text text="0" fx:id="ironmanToken"/>
                         <Button mnemonicParsing="false" text="+" fx:id="ironmanTokenPlus"/>
                     </HBox>
                     <Button mnemonicParsing="false" text="Move"  fx:id="ironmanMove"/>
+                    <Button mnemonicParsing="false" text="Remove" fx:id="ironmanRemove"/>
                 </VBox>
                 <VBox>
                     <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
@@ -77,18 +79,19 @@
                         </image>
                     </ImageView>
                     <HBox>
-                        <Text text="  C  "></Text>
+                        <Text text="  C  "/>
                         <Button mnemonicParsing="false" text="-" fx:id="capMinus"/>
-                        <Text text="0" fx:id="capClick"></Text>
+                        <Text text="0" fx:id="capClick"/>
                         <Button mnemonicParsing="false" text="+" fx:id="capPlus"/>
                     </HBox>
                     <HBox>
-                        <Text text="  A  "></Text>
+                        <Text text="  A  "/>
                         <Button mnemonicParsing="false" text="-" fx:id="capTokenMinus"/>
-                        <Text text="0" fx:id="capToken"></Text>
+                        <Text text="0" fx:id="capToken"/>
                         <Button mnemonicParsing="false" text="+" fx:id="capTokenPlus"/>
                     </HBox>
                     <Button mnemonicParsing="false" text="Move"  fx:id="capMove"/>
+                    <Button mnemonicParsing="false" text="Remove" fx:id="capRemove"/>
                 </VBox>
                 <VBox>
                     <Button mnemonicParsing="false" text="What Move Should We Do?"  fx:id="getMove"/>
@@ -102,18 +105,19 @@
                         </image>
                     </ImageView>
                     <HBox>
-                        <Text text="  C  "></Text>
+                        <Text text="  C  "/>
                         <Button mnemonicParsing="false" text="-" fx:id="enemyThorMinus"/>
-                        <Text text="0" fx:id="enemyThorClick"></Text>
+                        <Text text="0" fx:id="enemyThorClick"/>
                         <Button mnemonicParsing="false" text="+" fx:id="enemyThorPlus"/>
                     </HBox>
                     <HBox>
-                        <Text text="  A  "></Text>
+                        <Text text="  A  "/>
                         <Button mnemonicParsing="false" text="-" fx:id="enemyThorTokenMinus"/>
-                        <Text text="0" fx:id="enemyThorToken"></Text>
+                        <Text text="0" fx:id="enemyThorToken"/>
                         <Button mnemonicParsing="false" text="+" fx:id="enemyThorTokenPlus"/>
                     </HBox>
                     <Button mnemonicParsing="false" text="Move"  fx:id="enemyThorMove"/>
+                    <Button mnemonicParsing="false" text="Remove" fx:id="enemyThorRemove"/>
                 </VBox>
                 <VBox>
                     <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
@@ -122,18 +126,19 @@
                         </image>
                     </ImageView>
                     <HBox>
-                        <Text text="  C  "></Text>
+                        <Text text="  C  "/>
                         <Button mnemonicParsing="false" text="-" fx:id="enemyIronmanMinus"/>
-                        <Text text="0" fx:id="enemyIronmanClick"></Text>
+                        <Text text="0" fx:id="enemyIronmanClick"/>
                         <Button mnemonicParsing="false" text="+" fx:id="enemyIronmanPlus"/>
                     </HBox>
                     <HBox>
-                        <Text text="  A  "></Text>
+                        <Text text="  A  "/>
                         <Button mnemonicParsing="false" text="-" fx:id="enemyIronmanTokenMinus"/>
-                        <Text text="0" fx:id="enemyIronmanToken"></Text>
+                        <Text text="0" fx:id="enemyIronmanToken"/>
                         <Button mnemonicParsing="false" text="+" fx:id="enemyIronmanTokenPlus"/>
                     </HBox>
                     <Button mnemonicParsing="false" text="Move"  fx:id="enemyIronmanMove"/>
+                    <Button mnemonicParsing="false" text="Remove" fx:id="enemyIronmanRemove"/>
                 </VBox>
                 <VBox>
                     <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
@@ -142,18 +147,19 @@
                         </image>
                     </ImageView>
                     <HBox>
-                        <Text text="  C  "></Text>
+                        <Text text="  C  "/>
                         <Button mnemonicParsing="false" text="-" fx:id="enemyCapMinus"/>
-                        <Text text="0" fx:id="enemyCapClick"></Text>
+                        <Text text="0" fx:id="enemyCapClick"/>
                         <Button mnemonicParsing="false" text="+" fx:id="enemyCapPlus"/>
                     </HBox>
                     <HBox>
-                        <Text text="  A  "></Text>
+                        <Text text="  A  "/>
                         <Button mnemonicParsing="false" text="-" fx:id="enemyCapTokenMinus"/>
-                        <Text text="0" fx:id="enemyCapToken"></Text>
+                        <Text text="0" fx:id="enemyCapToken"/>
                         <Button mnemonicParsing="false" text="+" fx:id="enemyCapTokenPlus"/>
                     </HBox>
                     <Button mnemonicParsing="false" text="Move"  fx:id="enemyCapMove"/>
+                    <Button mnemonicParsing="false" text="Remove" fx:id="enemyCapRemove"/>
                 </VBox>
             </HBox>
         </children>

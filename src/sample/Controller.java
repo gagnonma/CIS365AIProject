@@ -27,121 +27,21 @@ public class Controller implements Initializable {
     @FXML
     StackPane root;
     @FXML
-    MenuItem wallUp;
-    @FXML
-    MenuItem wallDown;
-    @FXML
-    MenuItem wallRight;
-    @FXML
-    MenuItem wallLeft;
-    @FXML
-    MenuItem wallRemove;
-    @FXML
-    MenuItem water;
+    MenuItem wallUp, wallDown, wallRight, wallLeft, wallRemove, water;
     @FXML
     MenuButton wall;
     @FXML
-    Button save;
+    Button save, load, start, goal, findPath, clearPath, thorMove, ironmanMove, capMove, enemyThorMove,
+            enemyIronmanMove, enemyCapMove, thorMinus, ironmanMinus, capMinus, enemyThorMinus, enemyIronmanMinus,
+            enemyCapMinus, thorPlus, ironmanPlus, capPlus, enemyThorPlus, enemyIronmanPlus, enemyCapPlus, thorTokenMinus,
+            ironmanTokenMinus, capTokenMinus, enemyThorTokenMinus, enemyIronmanTokenMinus, enemyCapTokenMinus,
+            thorTokenPlus, ironmanTokenPlus, capTokenPlus, enemyThorTokenPlus, enemyIronmanTokenPlus, enemyCapTokenPlus,
+            getMove, precompute, endTurn, thorRemove, ironmanRemove, capRemove, enemyThorRemove, enemyIronmanRemove,
+            enemyCapRemove;
     @FXML
-    Button load;
-    @FXML
-    Button start;
-    @FXML
-    Button goal;
-    @FXML
-    Button findPath;
-    @FXML
-    Button clearPath;
-    @FXML
-    Button thorMove;
-    @FXML
-    Button ironmanMove;
-    @FXML
-    Button capMove;
-    @FXML
-    Button enemyThorMove;
-    @FXML
-    Button enemyIronmanMove;
-    @FXML
-    Button enemyCapMove;
-    @FXML
-    Button thorMinus;
-    @FXML
-    Button ironmanMinus;
-    @FXML
-    Button capMinus;
-    @FXML
-    Button enemyThorMinus;
-    @FXML
-    Button enemyIronmanMinus;
-    @FXML
-    Button enemyCapMinus;
-    @FXML
-    Button thorPlus;
-    @FXML
-    Button ironmanPlus;
-    @FXML
-    Button capPlus;
-    @FXML
-    Button enemyThorPlus;
-    @FXML
-    Button enemyIronmanPlus;
-    @FXML
-    Button enemyCapPlus;
-    @FXML
-    Text thorClick;
-    @FXML
-    Text ironmanClick;
-    @FXML
-    Text capClick;
-    @FXML
-    Text enemyThorClick;
-    @FXML
-    Text enemyIronmanClick;
-    @FXML
-    Text enemyCapClick;
-    @FXML
-    Button thorTokenMinus;
-    @FXML
-    Button ironmanTokenMinus;
-    @FXML
-    Button capTokenMinus;
-    @FXML
-    Button enemyThorTokenMinus;
-    @FXML
-    Button enemyIronmanTokenMinus;
-    @FXML
-    Button enemyCapTokenMinus;
-    @FXML
-    Button thorTokenPlus;
-    @FXML
-    Button ironmanTokenPlus;
-    @FXML
-    Button capTokenPlus;
-    @FXML
-    Button enemyThorTokenPlus;
-    @FXML
-    Button enemyIronmanTokenPlus;
-    @FXML
-    Button enemyCapTokenPlus;
-    @FXML
-    Text thorToken;
-    @FXML
-    Text ironmanToken;
-    @FXML
-    Text capToken;
-    @FXML
-    Text enemyThorToken;
-    @FXML
-    Text enemyIronmanToken;
-    @FXML
-    Text enemyCapToken;
-    @FXML
-    Button getMove;
-    @FXML
-    Button precompute;
-    @FXML
-    Button endTurn;
+    Text thorClick, ironmanClick, capClick, enemyThorClick, enemyIronmanClick, enemyCapClick, thorToken, ironmanToken,
+            capToken, enemyThorToken, enemyIronmanToken, enemyCapToken;
+
 
 
     boolean showHoverCursor = true;
@@ -419,6 +319,36 @@ public class Controller implements Initializable {
             model.enemyThor.costedActions = 0;
             model.enemyIronman.costedActions = 0;
             model.enemyCaptainAmerica.costedActions = 0;
+        });
+
+        thorRemove.setOnAction( event -> {
+            grid.cells[model.thor.y][model.thor.x].setText("",false);
+            model.removeHero(model.thor);
+        });
+
+        ironmanRemove.setOnAction( event -> {
+            grid.cells[model.ironman.y][model.ironman.x].setText("",false);
+            model.removeHero(model.ironman);
+        });
+
+        capRemove.setOnAction( event -> {
+            grid.cells[model.captainAmerica.y][model.captainAmerica.x].setText("",false);
+            model.removeHero(model.captainAmerica);
+        });
+
+        enemyThorRemove.setOnAction( event -> {
+            grid.cells[model.enemyThor.y][model.enemyThor.x].setText("",false);
+            model.removeHero(model.enemyThor);
+        });
+
+        enemyIronmanRemove.setOnAction( event -> {
+            grid.cells[model.enemyIronman.y][model.enemyIronman.x].setText("",false);
+            model.removeHero(model.enemyIronman);
+        });
+
+        enemyCapRemove.setOnAction( event -> {
+            grid.cells[model.enemyCaptainAmerica.y][model.enemyCaptainAmerica.x].setText("",false);
+            model.removeHero(model.enemyCaptainAmerica);
         });
 
 
@@ -739,42 +669,55 @@ public class Controller implements Initializable {
 //                    }
                     break;
                 case THOR:
-                    grid.cells[model.thor.y][model.thor.x].setText("",false);
+                    if (!model.thor.dead) {
+                        grid.cells[model.thor.y][model.thor.x].setText("", false);
+                    }
                     cell.setText("Thor",false);
                     cell.prevText = "Thor";
                     break;
                 case IRONMAN:
-                    grid.cells[model.ironman.y][model.ironman.x].setText("",false);
+                    if (!model.ironman.dead) {
+                        grid.cells[model.ironman.y][model.ironman.x].setText("", false);
+                    }
                     cell.setText("Iron\nMan",false);
                     cell.prevText = "Iron\nMan";
                     break;
                 case CAP_AMERICA:
-                    grid.cells[model.captainAmerica.y][model.captainAmerica.x].setText("",false);
+                    if (!model.captainAmerica.dead) {
+                        grid.cells[model.captainAmerica.y][model.captainAmerica.x].setText("", false);
+                    }
                     cell.setText("Cap",false);
                     cell.prevText = "Cap";
-
-
                     break;
                 case E_THOR:
-                    grid.cells[model.enemyThor.y][model.enemyThor.x].setText("",false);
+                    if (!model.enemyThor.dead) {
+                        grid.cells[model.enemyThor.y][model.enemyThor.x].setText("", false);
+                    }
                     cell.setText("Thor",true);
                     cell.prevText = "Thor";
                     cell.isPrevTextEnemy = true;
                     break;
                 case E_IRONMAN:
-                    grid.cells[model.enemyIronman.y][model.enemyIronman.x].setText("",false);
+                    if (!model.enemyIronman.dead) {
+                        grid.cells[model.enemyIronman.y][model.enemyIronman.x].setText("", false);
+                    }
                     cell.setText("Iron\nMan",true);
                     cell.prevText = "Iron\nMan";
                     cell.isPrevTextEnemy = true;
                     break;
                 case E_CAP_AMERICA:
-                    grid.cells[model.enemyCaptainAmerica.y][model.enemyCaptainAmerica.x].setText("",false);
+                    if (!model.enemyCaptainAmerica.dead) {
+                        grid.cells[model.enemyCaptainAmerica.y][model.enemyCaptainAmerica.x].setText("", false);
+                    }
                     cell.setText("Cap",true);
                     cell.prevText = "Cap";
                     cell.isPrevTextEnemy = true;
                     break;
                 case WATER:
                     cell.addWater();
+                    break;
+                default:
+                    break;
             }
             model.selectNode(cell.column,cell.row);
 //            HashSet<sample.Node> available = model.getPrecomputedReachableNodes(model.thor);
