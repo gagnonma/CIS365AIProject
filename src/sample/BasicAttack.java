@@ -37,10 +37,9 @@ public class BasicAttack extends Action{ //an action that has 1 hero attack anot
         total. The attack roll and attack total are then finalized.
          */
         Random rand = new Random();
-        Random rand2 = new Random();
         int attackValue = attacker.attack[attacker.click];
         int roll1 = rand.nextInt(7);
-        int roll2 = rand2.nextInt(7);
+        int roll2 = rand.nextInt(7);
         int attackRoll = roll1 + roll2;
         int attackTotal = attackValue + attackRoll;
         int damage = attacker.damage[attacker.click];
