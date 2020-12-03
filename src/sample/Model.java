@@ -27,7 +27,8 @@ public class Model {
 
     GameState mainGameState;
     MonteCarloSimulator monteCarloSimulator;
-    HashMap<Node, HashMap<Integer, HashSet<Node>>> precomputedMap;
+    HashMap<Node, HashMap<Integer, HashSet<Node>>> precomputedFlyMap;
+    HashMap<Node, HashMap<Integer, HashSet<Node>>> precomputedWalkMap;
 
 
     /**
@@ -121,7 +122,9 @@ public class Model {
     public void moveHero(Hero myHero, int x, int y) {
         map.get(myHero.x).get(myHero.y).occupant = null;
         myHero.setLocation(x,y);
+        myHero.node = map.get(x).get(y);
         map.get(myHero.x).get(myHero.y).occupant = myHero;
+        System.out.println(getPrecomputedReachableNodes(myHero));
     }
 
     public ArrayList<Node> findPath(Node start, Node goal) {
@@ -397,30 +400,39 @@ public class Model {
                 allNodes.add(map.get(i).get(j));
             }
         }
-        HashMap<Node, HashMap<Integer, HashSet<Node>>> out = new HashMap<Node, HashMap<Integer, HashSet<Node>>>();
+        HashMap<Node, HashMap<Integer, HashSet<Node>>> flyOut = new HashMap<Node, HashMap<Integer, HashSet<Node>>>();
+        HashMap<Node, HashMap<Integer, HashSet<Node>>> walkOut = new HashMap<Node, HashMap<Integer, HashSet<Node>>>();
         for (Node node : allNodes) {
-            HashMap<Integer, HashSet<Node>> value = new HashMap<Integer, HashSet<Node>>();
+            HashMap<Integer, HashSet<Node>> flyValues = new HashMap<Integer, HashSet<Node>>();
+            HashMap<Integer, HashSet<Node>> walkValues = new HashMap<Integer, HashSet<Node>>();
             for (int speed = 2; speed < 13; speed++) {
-                value.put(speed, getReachableNodes(node, speed));
+                flyValues.put(speed, getReachableNodesFly(node, speed));
+                walkValues.put(speed,getReachableNodesWalk(node,speed));
             }
-            out.put(node, value);
+            flyOut.put(node, flyValues);
+            walkOut.put(node, walkValues);
         }
-        System.out.println(out);
-        precomputedMap = out;
+//        System.out.println(out);
+        precomputedFlyMap = flyOut;
+        precomputedWalkMap = walkOut;
+
         //return out;
     }
 
     public HashSet<Node> getPrecomputedReachableNodes(Hero hero) {
-        return precomputedMap.get(hero.node).get(hero.speed[hero.click]);
+        if (!hero.canFly){
+            if (hero.node.isWater) {
+                return precomputedWalkMap.get(hero.node).get(hero.speed[hero.click]/2);
+            }
+            return precomputedWalkMap.get(hero.node).get(hero.speed[hero.click]);
+        }
+        return precomputedFlyMap.get(hero.node).get(hero.speed[hero.click]);
     }
 
-    public HashSet<Node> getReachableNodes(Node node, int speed) {
+    public HashSet<Node> getReachableNodesWalk(Node node, int speed) {
         int distance = speed;
-        if (node.isWater)
-            distance/=2;
         HashSet<Node> output = new HashSet<Node>();
         HashSet<Node> lastLayer = new HashSet<Node>();
-        ;
         output.add(node);
         lastLayer.add(node);
 
@@ -439,9 +451,31 @@ public class Model {
                 }
             }
 
-            for (Node nodeInner : currentLayer) {
-                output.add(nodeInner);
+            output.addAll(currentLayer);
+            lastLayer = currentLayer;
+        }
+        return output;
+    }
+
+    public HashSet<Node> getReachableNodesFly(Node node, int speed) {
+        int distance = speed;
+        HashSet<Node> output = new HashSet<Node>();
+        HashSet<Node> lastLayer = new HashSet<Node>();
+
+        output.add(node);
+        lastLayer.add(node);
+
+        for (int i = 0; i < distance; i++) {
+            HashSet<Node> currentLayer = new HashSet<Node>();
+            for (Node nodeInner : lastLayer) {
+                for (Node child : nodeInner.connectedNodes) {
+                    if (!output.contains(child)) {
+                        currentLayer.add(child);
+                    }
+                }
             }
+
+            output.addAll(currentLayer);
             lastLayer = currentLayer;
         }
         return output;

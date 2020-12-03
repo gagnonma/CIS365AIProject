@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -154,7 +155,7 @@ public class Controller implements Initializable {
     private Model model;
     Grid grid;
 
-    String defaultMap = "0000000300000000000023030322000000030103000300000022402000224200030303000000130003000302222203000322030223000010030003300440222222220032244000000300032200000020030003000000030003230000002222400003030300300000000322432000000000030003003000000000000300300000";
+    String defaultMap = "0000000300000000000023030322000000030103000300000022402000224200030303000000130003000302222203000322030223000010030003300440222222220032244000000300032202220020030003000000030003230000002222400003030300300000000322432000000000030003003000000000000300300000";
     String defaultWaterMap = "0000111001110000000000100100000000000011110000000000000110000000000000011000000000000001000000000000001110000000000010100100000000001110010000000001100111000000000100001000000000010000010000000000000001000000000000000111000000000000000100000000000000000000";
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -751,6 +752,8 @@ public class Controller implements Initializable {
                     grid.cells[model.captainAmerica.y][model.captainAmerica.x].setText("",false);
                     cell.setText("Cap",false);
                     cell.prevText = "Cap";
+
+
                     break;
                 case E_THOR:
                     grid.cells[model.enemyThor.y][model.enemyThor.x].setText("",false);
@@ -774,6 +777,10 @@ public class Controller implements Initializable {
                     cell.addWater();
             }
             model.selectNode(cell.column,cell.row);
+//            HashSet<sample.Node> available = model.getPrecomputedReachableNodes(model.thor);
+//            for (sample.Node n : available){
+//                grid.cells[n.y][n.x].setPath();
+//            }
             //ArrayList<sample.Node> path =  model.getReachableNodes(model.thor);
             //for (sample.Node p: path) {
                 //grid.cells[p.y][p.x].setPath();
