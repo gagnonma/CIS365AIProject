@@ -115,6 +115,7 @@ public class GameState {
         ArrayList<Action> validActions = new ArrayList<Action>();
         //First, we know that ending turn is always an option so we will add this action to the list immediately.
         EndTurn endTurn = new EndTurn();
+        endTurn.goodness = 0.9;
         validActions.add(endTurn);
 
         ArrayList<Hero> actionableHeroes = getActionableHeroes();
@@ -122,8 +123,11 @@ public class GameState {
 
         for (Hero hero : actionableHeroes) {
             //If a hero has nonzero tokens, its always a move to clear its tokens.
-            ClearActionTokens clearActionTokens = new ClearActionTokens(hero);
-            validActions.add(clearActionTokens);
+            if (hero.tokens > 0) {
+                ClearActionTokens clearActionTokens = new ClearActionTokens(hero);
+                clearActionTokens.weight = 150;
+                validActions.add(clearActionTokens);
+            }
 
             if (hero.tokens < 2) {
                 //First let's find every valid Movement for each hero.
@@ -132,6 +136,13 @@ public class GameState {
                 for (Node node : reachableNodes) {
                     if (!occupiedNodes.contains(node)) {
                         Move move = new Move(hero, node);
+                        if (hero.tokens > 0) {
+                            move.weight = 0.05;//0.05;
+                            move.goodness = 0.9;
+                        } else {
+                            move.goodness = 0.98;
+                            move.weight = 0.1;
+                        }
                         validActions.add(move);
                     }
                 }
@@ -149,6 +160,7 @@ public class GameState {
             for (Hero attackableHero : attackableHeroes) {
                 if (model.inRange(hero.node, attackableHero.node, hero.range)) {
                     BasicAttack attack = new BasicAttack(hero, attackableHero);
+                    attack.weight = 5;
                     validActions.add(attack);
                 }
             }
@@ -157,7 +169,7 @@ public class GameState {
         return validActions;
     }
 
-    public double evaluateTerminalState(int maxTurns) { //Returns -1 if not terminal, 0 for friendly loss, 0.5 for tie, 1 for friendly win
+    public double evaluateTerminalState(int maxTurns) { //Returns -1 if not terminal, 0 for friendly loss, 1 for friendly win, otherwise in between
         boolean allFriendlyHeroesKOd = true;
         int friendlyDamageTaken = 0;
         for (Hero hero : friendlyHeroes) {
@@ -183,7 +195,10 @@ public class GameState {
         }
 
         if (turnCounter >= maxTurns) { //We hit the max moves, so we evaluate according to Heroclix Victory Points rules
+
+            return 0.5 + ((enemyDamageTaken - friendlyDamageTaken) / 38.0); //hardcoded hax
             //Technically, this isn't exactly how victory points work but I think it's a close enough heuristic / approximation
+            /*/
             if (friendlyDamageTaken > enemyDamageTaken) {
                 return 0; //Friendly took more damage, enemy wins
             }
@@ -191,8 +206,9 @@ public class GameState {
                 return 1; //Enemy took more damage, friendly wins
             }
             else {
-                return 0.5; //We even dealt the same amount of damage all game, unlikely, but a tie
-            }
+
+                //return 0.5; //We even dealt the same amount of damage all game, unlikely, but a tie
+            }/*/
         }
 
         return -1; //The game state is not terminal.

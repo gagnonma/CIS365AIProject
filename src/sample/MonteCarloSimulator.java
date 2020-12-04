@@ -10,10 +10,30 @@ public class MonteCarloSimulator {
 
     }
 
-    public double rollout(GameState gameState) { //Returns the value of one rollout for an action - 0 is a loss, 1 is a win, 0.5 is a tie.
+    public Action getRandomActionWeighted(ArrayList<Action> actions) {
+        double totalWeight = 0;
+        for (Action action : actions) {
+            totalWeight += action.weight;
+        }
+        //System.out.println(totalWeight);
+
+        double threshold = Math.random() * totalWeight;
+        double sumWeight = 0;
+        for (Action action : actions) {
+            sumWeight += action.weight;
+            if (sumWeight >= threshold) {
+                return action;
+            }
+        }
+        return null;
+    }
+
+    public double rollout(GameState gameState, int actionIndex, int maxDepth) { //Returns the value of one rollout for an action - 0 is a loss, 1 is a win, 0.5 is a tie.
         GameState cloneState = new GameState(gameState);
+        Action action = cloneState.getValidActions().get(actionIndex);
+        action.applyActionToGameState(cloneState);
         Random rand = new Random();
-        double evaluation = cloneState.evaluateTerminalState(MAX_ROLLOUT_DEPTH_TURNS);
+        double evaluation = cloneState.evaluateTerminalState(maxDepth);
         while(evaluation == -1) { //While we haven't reached a terminal state
             ArrayList<Action> validActions = cloneState.getValidActions();
             /*/System.out.println("Valid actions at this point in the rollout");
@@ -21,22 +41,28 @@ public class MonteCarloSimulator {
                 System.out.println(a.toString());
             }
             System.out.println("----------------");/*/
-            //Pick a random action from the valid ones, todo, perhaps bias these to be more realistic (ie, weight attacks more than moves)
-            Action chosenAction = validActions.get(rand.nextInt(validActions.size()));
+            //Pick a random action from the valid ones
+            Action chosenAction = getRandomActionWeighted(validActions); //validActions.get(rand.nextInt(validActions.size()));
             //System.out.println(chosenAction.toString());
             chosenAction.applyActionToGameState(cloneState); //Apply the action to the game state
             //System.out.println(chosenAction.toString());
-            evaluation = cloneState.evaluateTerminalState(MAX_ROLLOUT_DEPTH_TURNS);
+            evaluation = cloneState.evaluateTerminalState(maxDepth);
         }
-
+        //int i = 1;
         return evaluation;
     }
 
-    public double evaluateAction(GameState gameState, Action action) { //Returns the probability of action leading to a win
+    public double evaluateAction(GameState gameState, int actionIndex) { //Returns the probability of action leading to a win
         double wins = 0;
-        action.applyActionToGameState(gameState);
         for (int i = 0; i < NUM_ROLLOUTS_PER_ACTION; i++) {
-            wins += rollout(gameState);
+            //action.applyActionToGameState(gameState);
+            if (i%2==1) {
+                wins += rollout(gameState, actionIndex, MAX_ROLLOUT_DEPTH_TURNS);
+            }
+            else {
+                wins += rollout(gameState, actionIndex, MAX_ROLLOUT_DEPTH_TURNS - 1);
+            }
+
         }
         return wins / NUM_ROLLOUTS_PER_ACTION;
     }
@@ -44,41 +70,29 @@ public class MonteCarloSimulator {
     public Action getBestActionFromGameState(GameState gameState) {
         GameState state = new GameState(gameState); //Copy the gameState so we don't affect the original
         ArrayList<Action> validActions = gameState.getValidActions();
-//        System.out.println(validActions);
-        System.out.println(gameState.getActionableHeroes());
+
         double bestScore = 0;
         int bestActionIndex = 0;
         Action bestAction = new Action();
+        String bestActionString = "";
 
         for (int i = 0; i < validActions.size(); i++) {
-            GameState stateCopy = new GameState(gameState); //Copy the gameState so we don't affect the original
-            //System.out.println("Turn number " + stateCopy.turnCounter);
+            GameState stateCopy = new GameState(state); //Copy the gameState so we don't affect the original
             ArrayList<Action> realActions = stateCopy.getValidActions();
             Action realAction = realActions.get(i);
-
-            double score = evaluateAction(stateCopy, realAction);
-            //System.out.println(realAction.toString() + " evaluates to: " + score);
+            String actionName = realAction.toString();
+            System.out.println(realAction.toString() + " being evaluated...");
+            double score = realAction.goodness * evaluateAction(stateCopy, i);
+            System.out.println(actionName + " evaluates to: " + score);
             if (score > bestScore) {
                 bestScore = score;
-                bestActionIndex = i;
+                bestAction = realAction;
+                bestActionString = actionName;
+                //bestActionIndex = i;
             }
         }
 
-        bestAction = validActions.get(bestActionIndex);
-
-        for (Action action : validActions) {
-            double score = evaluateAction(state, action);
-            //todo debug info, remove?
-            //System.out.println("Evaluation of action: " + action.toString() + " = " + String.valueOf(score));
-            //
-            if (score > bestScore) {
-                bestScore = score;
-                bestAction = action;
-            }
-        }
-        //todo debug info, remove?
-        System.out.println("Best action is: " + bestAction.toString() + ", probability of win: " + String.valueOf(bestScore));
-        //
+        System.out.println("Best action is: " + bestActionString + ", probability of win: " + String.valueOf(bestScore));
         return bestAction;
     }
 }

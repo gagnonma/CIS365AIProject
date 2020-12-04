@@ -49,7 +49,7 @@ public class Hero implements  Cloneable{
     }
 
     public String toString() {
-        return name;
+        return name + "(" + tokens + ")";
     }
 
     /*/public Hero(int x, int y) {

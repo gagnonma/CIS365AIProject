@@ -1,7 +1,8 @@
 package sample;
 
 public class Action {
-
+    public double weight = 1;
+    public double goodness = 1;
     public Action() {
     }
 

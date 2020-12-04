@@ -14,7 +14,7 @@ public class Move extends Action{ //an action that moves a hero to a new map pos
         hero.x = node.x;
         hero.y = node.y;
         if (hero.tokens > 0) { //pushing damage
-            //hero.incrementClick(); ???
+            hero.incrementClick();
         }
         hero.incrementTokens();
         hero.costedActions++;
@@ -22,6 +22,9 @@ public class Move extends Action{ //an action that moves a hero to a new map pos
     }
 
     public String toString() {
+        if (hero.tokens > 0) {
+            return "Move with pushing " + hero.toString() + " to " + node.name;
+        }
         return "Move " + hero.toString() + " to " + node.name;
     }
 }
