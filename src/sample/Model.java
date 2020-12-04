@@ -168,8 +168,13 @@ public class Model {
     }
 
     public boolean inRange(Node start, Node goal, int range) {
-        double deltaX = goal.x - start.x;
-        double deltaY = goal.y - start.y;
+        double startX = start.x + .5;
+        double startY = start.y + .5;
+        double goalX = goal.x + .5;
+        double goalY = goal.y + .5;
+
+        double deltaX = goalX - startX;
+        double deltaY = goalY - startY;
         double incrementX = deltaX / 10;
         double incrementY = deltaY / 10;
         if ( ! (calcDistance(start, goal) <= (double) range) ) {
@@ -178,7 +183,7 @@ public class Model {
         ArrayList<Node> inLine = new ArrayList<>();
         inLine.add(start);
         for (int i = 0; i < 10; i++) {
-            Node temp = map.get((int) (start.x + incrementX*i)).get((int) (start.y + incrementY*i));
+            Node temp = map.get((int) (startX + incrementX*i)).get((int) (startY + incrementY*i));
             if (!inLine.contains(temp)) {
                 inLine.add(temp);
             }

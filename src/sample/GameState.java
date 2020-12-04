@@ -146,22 +146,22 @@ public class GameState {
                         validActions.add(move);
                     }
                 }
-            }
 
 
-            //Now let's find every attackable hero and create an action to attack it.
-            ArrayList<Hero> attackableHeroes;
-            if (enemyTurn) {
-                attackableHeroes = getLivingFriendlies();
-            } else {
-                attackableHeroes = getLivingEnemies();
-            }
+                //Now let's find every attackable hero and create an action to attack it.
+                ArrayList<Hero> attackableHeroes;
+                if (enemyTurn) {
+                    attackableHeroes = getLivingFriendlies();
+                } else {
+                    attackableHeroes = getLivingEnemies();
+                }
 
-            for (Hero attackableHero : attackableHeroes) {
-                if (model.inRange(hero.node, attackableHero.node, hero.range)) {
-                    BasicAttack attack = new BasicAttack(hero, attackableHero);
-                    attack.weight = 5;
-                    validActions.add(attack);
+                for (Hero attackableHero : attackableHeroes) {
+                    if (model.inRange(hero.node, attackableHero.node, hero.range)) {
+                        BasicAttack attack = new BasicAttack(hero, attackableHero);
+                        attack.weight = 5;
+                        validActions.add(attack);
+                    }
                 }
             }
         }
