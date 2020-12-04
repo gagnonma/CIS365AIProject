@@ -138,7 +138,7 @@ public class GameState {
                         Move move = new Move(hero, node);
                         if (hero.tokens > 0) {
                             move.weight = 0.05;//0.05;
-                            move.goodness = 0.9;
+                            move.goodness = 0.95;
                         } else {
                             move.goodness = 0.98;
                             move.weight = 0.1;
